@@ -29,6 +29,8 @@ namespace WeatherAPI
 
             // API GOES HERE xD
 
+            app.MapGet("/search/{searchquery}", (string searchquery) => $"Your search input is: {searchquery}");
+          
             app.MapGet("/", () => "Hello world");
 
             app.MapGet("/greetings/{name}", (string name) => $"Hello {name}!");

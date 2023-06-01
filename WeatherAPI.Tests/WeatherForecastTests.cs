@@ -35,5 +35,18 @@ namespace WeatherAPI.Tests
             // Assert
             Assert.Equal(expected, actual);
         }
+      
+        [Theory]
+        [InlineData($"/search/", "Stockholm", $"Your search input is: Stockholm")]
+        public async Task MapGetShouldReturnHelloWorld(string endpoint, string city, string expected)
+        {
+            // Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+            // Act
+            string actual = await client.GetStringAsync(endpoint + city);
+            // Assert
+            Assert.Equal(expected, actual);
+        }
     }
 }
