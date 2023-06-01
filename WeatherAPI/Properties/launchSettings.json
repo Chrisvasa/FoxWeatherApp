@@ -4,7 +4,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:38040",
+      "applicationUrl": "http://dev.kjeld.io:38040",
       "sslPort": 44301
     }
   },
@@ -14,7 +14,7 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:40100;http://localhost:20100",
+      "applicationUrl": "https://dev.kjeld.io:40100;http://dev.kjeld.io:20100",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
