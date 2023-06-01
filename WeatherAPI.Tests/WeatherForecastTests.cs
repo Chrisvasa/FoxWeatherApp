@@ -9,7 +9,7 @@ using Xunit;
 namespace WeatherAPI.Tests
 {
     public class WeatherForecastTests
-    {      
+    {
         [Theory]
         [InlineData("/", "Hello world")]
         public async Task MapGetShouldReturnHelloWorld(string endpoint, string expected)
