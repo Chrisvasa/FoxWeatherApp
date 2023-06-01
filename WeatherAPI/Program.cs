@@ -24,12 +24,16 @@ namespace WeatherAPI
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseAuthorization();
 
             // API GOES HERE xD
 
             app.MapGet("/search/{searchquery}", (string searchquery) => $"Your search input is: {searchquery}");
+          
+            app.MapGet("/", () => "Hello world");
+
+            app.MapGet("/greetings/{name}", (string name) => $"Hello {name}!");
 
             app.UseCors();
             app.Run();
