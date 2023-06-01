@@ -1,13 +1,3 @@
-**/bin/*
-**/obj/*
-.vs/
-
-WeatherAPI/.vs
-WeatherAPI.Tests/.vs
-app.config
-appsettings.Development.json
-appsettings.json
-
 # Logs
 logs
 *.log
