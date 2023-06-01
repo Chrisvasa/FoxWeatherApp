@@ -29,6 +29,8 @@ namespace WeatherAPI
 
             // API GOES HERE xD
 
+            app.MapGet("/search/{searchquery}", (string searchquery) => $"Your search input is: {searchquery}");
+
             app.UseCors();
             app.Run();
         }
