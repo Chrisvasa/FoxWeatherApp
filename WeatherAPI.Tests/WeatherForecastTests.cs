@@ -3,7 +3,7 @@ using Xunit;
 
 namespace WeatherAPI.Tests
 {
-    public class WeatherForecastTests
+    public class WeatherForecastTests 
     {
         [Theory]
         [InlineData("/", "Hello world")]
