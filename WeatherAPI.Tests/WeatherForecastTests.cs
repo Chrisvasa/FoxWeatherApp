@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace WeatherAPI.Tests
@@ -35,10 +30,10 @@ namespace WeatherAPI.Tests
             // Assert
             Assert.Equal(expected, actual);
         }
-      
+
         [Theory]
         [InlineData($"/search/", "Stockholm", $"Your search input is: Stockholm")]
-        public async Task MapGetShouldReturnHelloWorld(string endpoint, string city, string expected)
+        public async Task MapGetShouldReturnSearchedCity(string endpoint, string city, string expected)
         {
             // Arrange
             await using var application = new WebApplicationFactory<Program>();
