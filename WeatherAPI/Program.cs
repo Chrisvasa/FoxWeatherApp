@@ -27,7 +27,7 @@ namespace WeatherAPI
             //app.UseHttpsRedirection();
             app.UseAuthorization();
 
-            // API GOES HERE xD
+            // API GOES HERE xD  
 
             app.MapGet("/search/{searchquery}", (string searchquery) => $"Your search input is: {searchquery}");
           
