@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http.Features;
 using Newtonsoft.Json;
 using WeatherAPI.Models;
 
@@ -44,6 +43,12 @@ namespace WeatherAPI
                 return cities.city.Where(x => x.name == cityname).Select(x => x.name).First();
             });
 
+            app.MapGet("/weather/city={cityName}", (string cityName) =>
+            {
+                return cities.city.Where(x => x.name == cityName).Select(x => x.weather).First();
+            }
+            );
+
             app.UseCors();
             app.Run();
         }
@@ -53,6 +58,6 @@ namespace WeatherAPI
             string jsonData = File.ReadAllText("./Data/example.json");
             // Converts the data from the JSON file into classes
             cities = JsonConvert.DeserializeObject<Cities>(jsonData);
-        } 
+        }
     }
 }

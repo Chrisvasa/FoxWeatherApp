@@ -31,5 +31,18 @@ namespace WeatherAPI.Tests
             // Assert
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData($"/weather/city=Stockholm", "Sunny")]
+        public async Task GetWeatherData(string weather, string expected)
+        {
+            // Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+            // Act
+            string actual = await client.GetStringAsync(weather);
+            // Assert
+            Assert.Equal(expected, actual);
+        }
     }
 }
