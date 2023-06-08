@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
 namespace WeatherAPI.Tests
@@ -52,11 +53,15 @@ namespace WeatherAPI.Tests
             using var client = application.CreateClient();
             string expected = "City does not exist!";
             //Act
-            string actual = await client.GetStringAsync(expected);
+            var exception = await Assert.ThrowsAsync<HttpRequestException>(async () =>
+            {
+                await client.GetStringAsync($"/weather/city=Uppsala");
+            });
+            //string actual = await client.GetStringAsync(expected);
             //Assert
-            Assert.Equal("City does not exist!", expected);
+            Assert.Equal(StatusCodes.Status500InternalServerError, (int)exception.StatusCode);
         }
-        [Theory]
+        /*[Theory]
         [InlineData($"/weather/city=Uppsala", "Uppsala")]
         public async Task TryToSearchForFirstResult_ThrowExceptionWhenResultDoesNotExist(string endpoint, string expected)
         {
@@ -67,6 +72,6 @@ namespace WeatherAPI.Tests
             var exception = Assert.ThrowsAsync<Exception>(async () => await client.GetStringAsync(endpoint));
             //Assert
             Assert.Equal(expected, exception.Message);
-        }
+        }*/
     }
 }
