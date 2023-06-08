@@ -44,5 +44,29 @@ namespace WeatherAPI.Tests
             // Assert
             Assert.Equal(expected, actual);
         }
+        [Fact]
+        public async Task TryToSearchForResult_ThrowsException()
+        {
+            //Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+            string expected = "City does not exist!";
+            //Act
+            string actual = await client.GetStringAsync(expected);
+            //Assert
+            Assert.Equal("City does not exist!", expected);
+        }
+        [Theory]
+        [InlineData($"/weather/city=Uppsala", "Uppsala")]
+        public async Task TryToSearchForFirstResult_ThrowExceptionWhenResultDoesNotExist(string endpoint, string expected)
+        {
+            // Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+            //Act
+            var exception = Assert.ThrowsAsync<Exception>(async () => await client.GetStringAsync(endpoint));
+            //Assert
+            Assert.Equal(expected, exception.Message);
+        }
     }
 }
