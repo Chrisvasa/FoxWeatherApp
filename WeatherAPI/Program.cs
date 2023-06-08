@@ -1,9 +1,15 @@
+using Microsoft.AspNetCore.Http.Features;
+using Newtonsoft.Json;
+using WeatherAPI.Models;
+
 namespace WeatherAPI
 {
     public class Program
     {
+        static Cities cities = new Cities();
         public static void Main(string[] args)
         {
+            LoadJson();
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -27,16 +33,26 @@ namespace WeatherAPI
             //app.UseHttpsRedirection();
             app.UseAuthorization();
 
-            // API GOES HERE xD  
-
             app.MapGet("/search/{searchquery}", (string searchquery) => $"Your search input is: {searchquery}");
-          
+
             app.MapGet("/", () => "Hello world");
 
             app.MapGet("/greetings/{name}", (string name) => $"Hello {name}!");
 
+            app.MapGet("/city/{cityname}", (string cityname) =>
+            {
+                return cities.city.Where(x => x.name == cityname).Select(x => x.name).First();
+            });
+
             app.UseCors();
             app.Run();
         }
+
+        public static void LoadJson()
+        {
+            string jsonData = File.ReadAllText("./Data/example.json");
+            // Converts the data from the JSON file into classes
+            cities = JsonConvert.DeserializeObject<Cities>(jsonData);
+        } 
     }
 }
