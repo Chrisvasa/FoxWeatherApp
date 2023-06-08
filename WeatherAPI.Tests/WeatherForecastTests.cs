@@ -43,5 +43,19 @@ namespace WeatherAPI.Tests
             // Assert
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData("/city/Stockholm", "Stockholm")]
+        [InlineData("/city/Gothenburg", "Gothenburg")]
+        public async Task MapGetShouldReturnCityName(string endpoint, string expected)
+        {
+            // Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+            // Act
+            string actual = await client.GetStringAsync(endpoint);
+            // Assert
+            Assert.Equal(expected, actual);
+        }
     }
 }
