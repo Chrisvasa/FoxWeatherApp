@@ -50,7 +50,8 @@ namespace WeatherAPI
 
         public static void LoadJson()
         {
-            string jsonData = File.ReadAllText(".\\Data\\example.json");
+            string jsonData = File.ReadAllText("./Data/example.json");
+            // Converts the data from the JSON file into classes
             cities = JsonConvert.DeserializeObject<Cities>(jsonData);
         } 
     }
