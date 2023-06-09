@@ -43,7 +43,6 @@ namespace WeatherAPI
                 return Results.Ok(city);
             });
 
-
             app.UseCors();
             app.Run();
         }
