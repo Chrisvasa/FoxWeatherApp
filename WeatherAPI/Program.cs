@@ -40,7 +40,16 @@ namespace WeatherAPI
 
             app.MapGet("/city/{cityname}", (string cityname) =>
             {
-                return cities.city.Where(x => x.name == cityname).Select(x => x.name).First();
+                var city = cities.city.Where(x => x.name == cityname).Select(x => x.name).FirstOrDefault();
+                if (city is null)
+                {
+                    return Results.NotFound();
+                }
+                else
+                {
+                    return Results.Ok(city);
+                }
+
             });
 
             app.MapGet("/weather/city={cityName}", (string cityName) =>
@@ -48,7 +57,7 @@ namespace WeatherAPI
                 return cities.city.Where(x => x.name == cityName).Select(x => x.weather).First();
             }
             );
-
+            app.UseStatusCodePages();
             app.UseCors();
             app.Run();
         }
