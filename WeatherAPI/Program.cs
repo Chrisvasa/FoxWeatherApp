@@ -35,11 +35,14 @@ namespace WeatherAPI
 
             app.MapGet("/weather/{cityName}", (string cityName) =>
             {
-                throw new NotImplementedException();
+                var city = cities.city.Where(x => x.name == cityName).FirstOrDefault();
+                if (city == null)
+                {
+                    return Results.NotFound();
+                }
+                return Results.Ok(city);
             });
 
-            app.Map("/exception", ()
-                => { throw new InvalidOperationException("Sample Exception"); });
 
             app.UseCors();
             app.Run();
