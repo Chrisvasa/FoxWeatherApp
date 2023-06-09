@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Testing;
+using System.Net;
 using Xunit;
 
 namespace WeatherAPI.Tests
@@ -6,43 +8,17 @@ namespace WeatherAPI.Tests
     public class WeatherForecastTests
     {
         [Theory]
-        [InlineData($"/search/", "Stockholm", $"Your search input is: Stockholm")]
-        public async Task MapGetShouldReturnSearchedCity(string endpoint, string city, string expected)
+        [InlineData("/weather/stockholm", HttpStatusCode.OK)]
+        [InlineData("/weather/gothenburg", HttpStatusCode.OK)]
+        public async Task MapGetShouldReturnCityData(string endpoint, HttpStatusCode expected)
         {
             // Arrange
             await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
             // Act
-            string actual = await client.GetStringAsync(endpoint + city);
+            HttpResponseMessage actual = await client.GetAsync(endpoint);
             // Assert
-            Assert.Equal(expected, actual);
-        }
-
-        [Theory]
-        [InlineData("/city/Stockholm", "Stockholm")]
-        [InlineData("/city/Gothenburg", "Gothenburg")]
-        public async Task MapGetShouldReturnCityName(string endpoint, string expected)
-        {
-            // Arrange
-            await using var application = new WebApplicationFactory<Program>();
-            using var client = application.CreateClient();
-            // Act
-            string actual = await client.GetStringAsync(endpoint);
-            // Assert
-            Assert.Equal(expected, actual);
-        }
-
-        [Theory]
-        [InlineData($"/weather/city=Stockholm", "Sunny")]
-        public async Task GetWeatherData(string weather, string expected)
-        {
-            // Arrange
-            await using var application = new WebApplicationFactory<Program>();
-            using var client = application.CreateClient();
-            // Act
-            string actual = await client.GetStringAsync(weather);
-            // Assert
-            Assert.Equal(expected, actual);
+            Assert.Equal(expected, actual.StatusCode);
         }
     }
 }

@@ -1,11 +1,12 @@
 using Newtonsoft.Json;
+using System.Xml.Linq;
 using WeatherAPI.Models;
 
 namespace WeatherAPI
 {
     public class Program
     {
-        static Cities cities = new Cities();
+        static Cities cities = new Cities(); // The JSON data gets loaded into these classes
         public static void Main(string[] args)
         {
             LoadJson();
@@ -32,22 +33,13 @@ namespace WeatherAPI
             //app.UseHttpsRedirection();
             app.UseAuthorization();
 
-            app.MapGet("/search/{searchquery}", (string searchquery) => $"Your search input is: {searchquery}");
-
-            app.MapGet("/", () => "Hello world");
-
-            app.MapGet("/greetings/{name}", (string name) => $"Hello {name}!");
-
-            app.MapGet("/city/{cityname}", (string cityname) =>
+            app.MapGet("/weather/{cityName}", (string cityName) =>
             {
-                return cities.city.Where(x => x.name == cityname).Select(x => x.name).First();
+                throw new NotImplementedException();
             });
 
-            app.MapGet("/weather/city={cityName}", (string cityName) =>
-            {
-                return cities.city.Where(x => x.name == cityName).Select(x => x.weather).First();
-            }
-            );
+            app.Map("/exception", ()
+                => { throw new InvalidOperationException("Sample Exception"); });
 
             app.UseCors();
             app.Run();

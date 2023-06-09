@@ -1,14 +1,14 @@
 ﻿{
   "city": [
     {
-      "name": "Stockholm",
+      "name": "stockholm",
       "weather": "Sunny",
       "degrees": 18.4,
       "wind": 21,
       "humidity": 76
     },
     {
-      "name": "Gothenburg",
+      "name": "gothenburg",
       "weather": "Rain",
       "degrees": 12,
       "wind": 44,
