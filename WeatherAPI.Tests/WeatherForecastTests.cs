@@ -8,7 +8,8 @@ namespace WeatherAPI.Tests
     {
         [Theory]
         [InlineData("/city/ ", HttpStatusCode.NotFound)]
-        [InlineData("/city/Stockholm", HttpStatusCode.NotFound)]
+        [InlineData("/city/Stockholm", HttpStatusCode.OK)]
+        [InlineData("/weather/city/Stockholm", HttpStatusCode.OK)]
         public async Task TryToSearchForFirstResult_ThrowExceptionWhenResultDoesNotExist(string endpoint, HttpStatusCode expected)
         {
             // Arrange
