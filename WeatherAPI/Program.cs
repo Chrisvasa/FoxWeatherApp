@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using System.Xml.Linq;
 using WeatherAPI.Models;
 
 namespace WeatherAPI
@@ -35,8 +34,8 @@ namespace WeatherAPI
 
             app.MapGet("/weather/{cityName}", (string cityName) =>
             {
-                var city = cities.city.Where(x => x.name == cityName).FirstOrDefault();
-                if (city == null)
+                var city = cities.city.Where(x => x.name.Equals(cityName)).FirstOrDefault();
+                if (city is null)
                 {
                     return Results.NotFound();
                 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using Xunit;
 
@@ -10,6 +9,7 @@ namespace WeatherAPI.Tests
         [Theory]
         [InlineData("/weather/stockholm", HttpStatusCode.OK)]
         [InlineData("/weather/gothenburg", HttpStatusCode.OK)]
+        [InlineData("/weather/newyork", HttpStatusCode.NotFound)]
         public async Task MapGetShouldReturnCityData(string endpoint, HttpStatusCode expected)
         {
             // Arrange
