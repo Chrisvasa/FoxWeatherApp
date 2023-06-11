@@ -62,7 +62,7 @@ function App() {
         <CityDropdownContainer>
           <Dropdown options={cities} onSelect={handleCitySelect} />
         </CityDropdownContainer>
-        {selectedCity && (
+        {cityInfo && (
           <Weather city={cityInfo.name} temp={cityInfo.degrees} weather={cityInfo.weather} />
         )}
 
