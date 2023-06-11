@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Weather from "./Weather";
 import Dropdown from "./Dropdown";
+import axios from "axios";
 
 const MainConatiner = styled.div`
   display: flex;
@@ -31,10 +32,24 @@ const CityDropdownContainer = styled.div`
   width: 100%;
 `;
 
-const cities = ["Stockholm", "Oslo", "London", "Tokyo"];
+const cities = ["Stockholm", "Gothenburg"];
+const host = "https://localhost:7107";
 
 function App() {
   const [selectedCity, setSelectedCity] = useState("");
+  const [cityInfo, setCityInfo] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${host}/weather/${selectedCity.toLowerCase()}`)
+    .then(response => setCityInfo(response.data))
+    
+    
+    
+
+  },[selectedCity])
+
+  
+
 
   const handleCitySelect = (city) => {
     setSelectedCity(city);
@@ -48,14 +63,12 @@ function App() {
           <Dropdown options={cities} onSelect={handleCitySelect} />
         </CityDropdownContainer>
         {selectedCity && (
-          <Weather city={selectedCity} temp={"150°C"} weather={"Sunny"} />
+          <Weather city={cityInfo.name} temp={cityInfo.degrees} weather={cityInfo.weather} />
         )}
 
-        {/* For each city, generate card, dummy info below */}
-        <Weather city={"Stockholm"} temp={"15°C"} weather={"Sunny"} />
-        <Weather city={"Oslo"} temp={"10°C"} weather={"Rainy"} />
-        <Weather city={"London"} temp={"5°C"} weather={"Rainy"} />
-        <Weather city={"Tokyo"} temp={"20°C"} weather={"Cloudy"} />
+ 
+
+       
       </WeatherConatiner>
     </MainConatiner>
   );
