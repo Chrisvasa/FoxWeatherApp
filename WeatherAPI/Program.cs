@@ -6,7 +6,7 @@ namespace WeatherAPI
 {
     public class Program
     {
-        static ApiCallCounter counter= new ApiCallCounter();
+        static ApiCallCounter counter= new ApiCallCounter();//Counter to count api calls
         static Cities cities = new Cities(); // The JSON data gets loaded into these classes
         public static void Main(string[] args)
         {

@@ -26,25 +26,15 @@ namespace WeatherAPI.Tests
         [Fact]
         public void Increment_WhenCalled_CountIncreasesByOne()
         {
-            // Arrange
             var counter = new ApiCallCounter();
-
-            // Act
             counter.Increment();
-
-            // Assert
             Assert.Equal(1, counter.GetCount());
         }
         [Fact]
         public void GetCount_WhenNoIncrement_ReturnsZero()
         {
-            // Arrange
             var counter = new ApiCallCounter();
-
-            // Act
             var count = counter.GetCount();
-
-            // Assert
             Assert.Equal(0, count);
         }
         [Theory]
@@ -52,12 +42,9 @@ namespace WeatherAPI.Tests
         [InlineData("/api/healthcheck", HttpStatusCode.InternalServerError)]
         public async Task ApiHealthCheckShouldReturnOK(string endpoint, HttpStatusCode expected)
         {
-            // Arrange
             await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
-            // Act
             HttpResponseMessage actual = await client.GetAsync(endpoint);
-            // Assert
             Assert.Equal(expected, actual.StatusCode);
         }
     }
