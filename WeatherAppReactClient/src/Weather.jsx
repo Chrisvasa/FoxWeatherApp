@@ -35,10 +35,7 @@ const WeatherCard = styled.div`
 
 const leadingUpperCase = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-
 const Weather = ({ city, temp, weather }) => {
-
-
   return (
     <WeatherCard>
       <h2>{leadingUpperCase(city)}</h2>

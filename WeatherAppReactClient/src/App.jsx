@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Weather from "./Weather";
 import Dropdown from "./Dropdown";
+import ErrorPopup from "./ErrorPopup";
 import axios from "axios";
 
 const MainConatiner = styled.div`
@@ -32,28 +33,58 @@ const CityDropdownContainer = styled.div`
   width: 100%;
 `;
 
-const cities = ["Stockholm", "Gothenburg"];
-const host = "https://localhost:7107";
+const cities = ["Stockholm", "Gothenburg", "Tokyo", "Chicago"];
+const host = "http://localhost:20100";
 
 function App() {
   const [selectedCity, setSelectedCity] = useState("");
   const [cityInfo, setCityInfo] = useState([]);
+  const [cityHistory, setCityHistory] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`${host}/weather/${selectedCity.toLowerCase()}`)
-    .then(response => setCityInfo(response.data))
-    
-    
-    
-
-  },[selectedCity])
-
-  
-
+    if (selectedCity) {
+      Promise.all(
+        cityHistory.map((city) =>
+          axios
+            .get(`${host}/weather/${city.toLowerCase()}`)
+            .then((response) => response.data)
+            .catch((error) => {
+              if (error.response && error.response.status === 404) {
+                setError("City not found");
+              } else {
+                setError("An error occurred. The server may be down.");
+                console.log("An error occurred:", error);
+              }
+              return null;
+            })
+        )
+      )
+        .then((cityDataArray) => {
+          setCityInfo(cityDataArray.filter(Boolean));
+        })
+        .catch((error) => {
+          setError("An error occurred while fetching weather information.");
+          console.log("An error occurred:", error);
+        });
+    }
+  }, [cityHistory]);
 
   const handleCitySelect = (city) => {
     setSelectedCity(city);
+    setCityHistory((prevHistory) => {
+      const updatedHistory = [...prevHistory];
+      // Keep only the latest 2 cities
+      updatedHistory.splice(0, 2);
+      // Add new city at the beginning
+      updatedHistory.unshift(city);
+      return updatedHistory;
+    });
     console.log("Selected city:", city);
+  };
+
+  const handleCloseError = () => {
+    setError(null);
   };
 
   return (
@@ -62,14 +93,28 @@ function App() {
         <CityDropdownContainer>
           <Dropdown options={cities} onSelect={handleCitySelect} />
         </CityDropdownContainer>
-        {selectedCity && (
-          <Weather city={cityInfo.name} temp={cityInfo.degrees} weather={cityInfo.weather} />
+        {cityInfo.length > 0 && selectedCity && (
+          <Weather
+            city={selectedCity}
+            temp={cityInfo[0]?.degrees}
+            weather={cityInfo[0]?.weather}
+          />
         )}
-
- 
-
-       
       </WeatherConatiner>
+      {cityHistory.length > 1 && (
+        <WeatherConatiner>
+          <h3>History:</h3>
+          {cityHistory.slice(1).map((city, index) => (
+            <Weather
+              key={index}
+              city={city}
+              temp={cityInfo[index + 1]?.degrees}
+              weather={cityInfo[index + 1]?.weather}
+            />
+          ))}
+        </WeatherConatiner>
+      )}
+      {error && <ErrorPopup message={error} onClose={handleCloseError} />}
     </MainConatiner>
   );
 }
