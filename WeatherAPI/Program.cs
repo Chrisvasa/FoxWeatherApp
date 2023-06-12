@@ -1,11 +1,14 @@
 using Newtonsoft.Json;
 using WeatherAPI.Models;
+using ApiCounter;
 
 namespace WeatherAPI
 {
     public class Program
     {
+        static ApiCallCounter counter= new ApiCallCounter();//Counter to count api calls
         static Cities cities = new Cities(); // The JSON data gets loaded into these classes
+
         public static void Main(string[] args)
         {
             LoadJson();
@@ -35,23 +38,28 @@ namespace WeatherAPI
 
             app.MapGet("/weather/{cityName}", (string cityName) =>
             {
+                counter.Increment();
                 var city = cities.city.Where(x => x.name.Equals(cityName.ToLower())).FirstOrDefault();
                 if (city is null)
                 {
                     return Results.NotFound();
                 }
+            Console.WriteLine($"API Calls Made: {counter.GetCount()}");
                 return Results.Ok(city);
             });
 
             app.MapGet("/api/healthcheck", () =>
             {
+                counter.Increment();
                 if (Results.StatusCode == Results.Ok)
                 {
                     return $"Api Status: {Results.Ok()}";
                 }
+                Console.WriteLine($"API Calls Made: {counter.GetCount()}");
                 return $"Api Status: {Results.NotFound()}";
 
             });
+
 
             app.MapGet("/api/getcities", () =>
             {
@@ -62,16 +70,39 @@ namespace WeatherAPI
                 }
                 return Results.Ok(cityList);
             });
+          
+            app.MapGet("/weather/favorite/{favoriteCity}", (string favoriteCity) =>
+            {
+                foreach (var city in cities.city)
+                {
+                    if (city.name == favoriteCity.ToLower())
+                    {
+                        city.isFavorite = true;
+                    }
+                    else
+                    {
+                        city.isFavorite = false;
+                    }
+                }
+                var fav = cities.city.Where(x => x.isFavorite == true).FirstOrDefault();
+                bool favc = false;
+
+                if (fav is null)
+                {
+                    throw new Exception("City not found!");
+                }
+                return $"Your favorite city is: {favoriteCity}";
+            });
 
             app.UseCors();
             app.Run();
         }
-
         public static void LoadJson()
         {
             string jsonData = File.ReadAllText("./Data/example.json");
             // Converts the data from the JSON file into classes
             cities = JsonConvert.DeserializeObject<Cities>(jsonData);
         }
+
     }
 }

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
+using ApiCounter;
 
 namespace WeatherAPI.Tests
 {
@@ -23,6 +24,20 @@ namespace WeatherAPI.Tests
             HttpResponseMessage actual = await client.GetAsync(endpoint);
             // Assert
             Assert.Equal(expected, actual.StatusCode);
+        }
+        [Fact]
+        public void Increment_WhenCalled_CountIncreasesByOne()
+        {
+            var counter = new ApiCallCounter();
+            counter.Increment();
+            Assert.Equal(1, counter.GetCount());
+        }
+        [Fact]
+        public void GetCount_WhenNoIncrement_ReturnsZero()
+        {
+            var counter = new ApiCallCounter();
+            var count = counter.GetCount();
+            Assert.Equal(0, count);
         }
         [Theory]
         [InlineData("/api/healthcheck", HttpStatusCode.OK)]
@@ -54,6 +69,19 @@ namespace WeatherAPI.Tests
             var actual = JsonConvert.DeserializeObject<List<string>>(content);
 
             //Assert
+            Assert.Equal(expected, actual);
+        }
+      
+        [Theory]
+        [InlineData($"/weather/favorite/", "Stockholm", $"Your favorite city is: Stockholm")]
+        public async Task AddFavoriteCity(string endpoint, string city, string expected)
+        {
+            // Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+            // Act
+            string actual = await client.GetStringAsync(endpoint + city);
+            // Assert
             Assert.Equal(expected, actual);
         }
     }
