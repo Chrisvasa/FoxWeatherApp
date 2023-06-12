@@ -7,5 +7,8 @@
         public double degrees { get; set; }
         public double wind { get; set; }
         public double humidity { get; set; }
+        public bool isFavorite { get; set; }
+
+
     }
 }
