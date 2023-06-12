@@ -35,6 +35,7 @@ namespace WeatherAPI
             //app.UseHttpsRedirection();
             app.UseAuthorization();
 
+
             app.MapGet("/weather/{cityName}", (string cityName) =>
             {
                 counter.Increment();
@@ -46,6 +47,7 @@ namespace WeatherAPI
             Console.WriteLine($"API Calls Made: {counter.GetCount()}");
                 return Results.Ok(city);
             });
+
             app.MapGet("/api/healthcheck", () =>
             {
                 counter.Increment();
@@ -58,6 +60,17 @@ namespace WeatherAPI
 
             });
 
+
+            app.MapGet("/api/getcities", () =>
+            {
+                var cityList = cities.city.Select(x => x.name.ToLower()).ToArray();
+                if (cityList is null)
+                {
+                    return Results.NotFound();
+                }
+                return Results.Ok(cityList);
+            });
+          
             app.MapGet("/weather/favorite/{favoriteCity}", (string favoriteCity) =>
             {
                 foreach (var city in cities.city)
