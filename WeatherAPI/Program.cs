@@ -8,6 +8,7 @@ namespace WeatherAPI
     {
         static ApiCallCounter counter= new ApiCallCounter();//Counter to count api calls
         static Cities cities = new Cities(); // The JSON data gets loaded into these classes
+
         public static void Main(string[] args)
         {
             LoadJson();
@@ -56,15 +57,39 @@ namespace WeatherAPI
                 return $"Api Status: {Results.NotFound()}";
 
             });
+
+            app.MapGet("/weather/favorite/{favoriteCity}", (string favoriteCity) =>
+            {
+                foreach (var city in cities.city)
+                {
+                    if (city.name == favoriteCity.ToLower())
+                    {
+                        city.isFavorite = true;
+                    }
+                    else
+                    {
+                        city.isFavorite = false;
+                    }
+                }
+                var fav = cities.city.Where(x => x.isFavorite == true).FirstOrDefault();
+                bool favc = false;
+
+                if (fav is null)
+                {
+                    throw new Exception("City not found!");
+                }
+                return $"Your favorite city is: {favoriteCity}";
+            });
+
             app.UseCors();
             app.Run();
         }
-
         public static void LoadJson()
         {
             string jsonData = File.ReadAllText("./Data/example.json");
             // Converts the data from the JSON file into classes
             cities = JsonConvert.DeserializeObject<Cities>(jsonData);
         }
+
     }
 }

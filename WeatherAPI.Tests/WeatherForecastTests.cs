@@ -51,9 +51,17 @@ namespace WeatherAPI.Tests
             // Assert
             Assert.Equal(expected, actual.StatusCode);
         }
+        [Theory]
+        [InlineData($"/weather/favorite/", "Stockholm", $"Your favorite city is: Stockholm")]
+        public async Task AddFavoriteCity(string endpoint, string city, string expected)
+        {
+            // Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+            // Act
+            string actual = await client.GetStringAsync(endpoint + city);
+            // Assert
+            Assert.Equal(expected, actual);
+        }
     }
-
-
-
-
 }
