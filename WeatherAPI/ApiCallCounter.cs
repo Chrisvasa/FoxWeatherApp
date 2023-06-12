@@ -9,14 +9,14 @@
                 count = 0;
             }
 
-            public void Increment()
-            {
-                count++;
-            }
-
-            public int GetCount()
-            {
-                return count;
-            }
+        public void Increment()
+        {
+            Interlocked.Increment(ref count);
         }
+
+        public int GetCount()
+        {
+            return Interlocked.CompareExchange(ref count, 0, 0);
+        }
+    }
 }
