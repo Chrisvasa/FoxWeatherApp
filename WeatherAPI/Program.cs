@@ -34,7 +34,7 @@ namespace WeatherAPI
 
             app.MapGet("/weather/{cityName}", (string cityName) =>
             {
-                var city = cities.city.Where(x => x.name.Equals(cityName)).FirstOrDefault();
+                var city = cities.city.Where(x => x.name.Equals(cityName.ToLower())).FirstOrDefault();
                 if (city is null)
                 {
                     return Results.NotFound();

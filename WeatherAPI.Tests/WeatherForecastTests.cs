@@ -11,6 +11,7 @@ namespace WeatherAPI.Tests
         [InlineData("/weather/gothenburg", HttpStatusCode.OK)]
         [InlineData("/weather/Stockholm", HttpStatusCode.OK)]
         [InlineData("/weather/gOTHENBURG", HttpStatusCode.OK)]
+        [InlineData("/weather/StockHolM", HttpStatusCode.OK)]
         public async Task MapGetShouldReturnCityData(string endpoint, HttpStatusCode expected)
         {
             // Arrange
