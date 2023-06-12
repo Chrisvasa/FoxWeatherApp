@@ -20,5 +20,22 @@ namespace WeatherAPI.Tests
             // Assert
             Assert.Equal(expected, actual.StatusCode);
         }
+        [Theory]
+        [InlineData("/api/healthcheck", HttpStatusCode.OK)]
+        [InlineData("/api/healthcheck", HttpStatusCode.InternalServerError)]
+        public async Task ApiHealthCheckShouldReturnOK(string endpoint, HttpStatusCode expected)
+        {
+            // Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+            // Act
+            HttpResponseMessage actual = await client.GetAsync(endpoint);
+            // Assert
+            Assert.True(actual.StatusCode == expected);
+        }
     }
+
+
+
+
 }
