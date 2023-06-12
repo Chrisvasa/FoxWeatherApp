@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using Xunit;
+using ApiCounter;
 
 namespace WeatherAPI.Tests
 {
@@ -42,9 +43,12 @@ namespace WeatherAPI.Tests
         [InlineData("/api/healthcheck", HttpStatusCode.InternalServerError)]
         public async Task ApiHealthCheckShouldReturnOK(string endpoint, HttpStatusCode expected)
         {
+            // Arrange
             await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
+            // Act
             HttpResponseMessage actual = await client.GetAsync(endpoint);
+            // Assert
             Assert.Equal(expected, actual.StatusCode);
         }
     }
