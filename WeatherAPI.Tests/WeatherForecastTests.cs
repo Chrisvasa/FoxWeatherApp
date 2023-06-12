@@ -9,6 +9,7 @@ namespace WeatherAPI.Tests
         [Theory]
         [InlineData("/weather/stockholm", HttpStatusCode.OK)]
         [InlineData("/weather/gothenburg", HttpStatusCode.OK)]
+        [InlineData("/weather/newyork", HttpStatusCode.NotFound)]
         [InlineData("/weather/Stockholm", HttpStatusCode.OK)]
         [InlineData("/weather/gOTHENBURG", HttpStatusCode.OK)]
         [InlineData("/weather/StockHolM", HttpStatusCode.OK)]
