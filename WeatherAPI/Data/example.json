@@ -13,6 +13,20 @@
       "degrees": 12,
       "wind": 44,
       "humidity": 98
+    },
+    {
+      "name": "tokyo",
+      "weather": "Cloudy",
+      "degrees": 20,
+      "wind": 44,
+      "humidity": 98
+    },
+    {
+      "name": "chicago",
+      "weather": "Rain",
+      "degrees": 8,
+      "wind": 35,
+      "humidity": 99
     }
   ]
 }
