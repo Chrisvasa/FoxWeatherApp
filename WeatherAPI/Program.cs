@@ -36,8 +36,12 @@ namespace WeatherAPI
 
             app.MapGet("/weather/{cityName}", (string cityName) =>
             {
+<<<<<<< HEAD
                 counter.Increment();
                 var city = cities.city.Where(x => x.name.Equals(cityName)).FirstOrDefault();
+=======
+                var city = cities.city.Where(x => x.name.Equals(cityName.ToLower())).FirstOrDefault();
+>>>>>>> main
                 if (city is null)
                 {
                     return Results.NotFound();
