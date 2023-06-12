@@ -31,7 +31,7 @@ namespace WeatherAPI.Tests
             // Act
             HttpResponseMessage actual = await client.GetAsync(endpoint);
             // Assert
-            Assert.True(actual.StatusCode == expected);
+            Assert.Equal(expected, actual.StatusCode);
         }
     }
 

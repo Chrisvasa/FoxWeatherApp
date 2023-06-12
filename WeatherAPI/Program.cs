@@ -41,7 +41,15 @@ namespace WeatherAPI
                 }
                 return Results.Ok(city);
             });
+            app.MapGet("/api/healthcheck", () =>
+            {
+                if (Results.StatusCode == Results.Ok)
+                {
+                    return $"Api Status: {Results.Ok()}";
+                }
+                return $"Api Status: {Results.NotFound()}";
 
+            });
             app.UseCors();
             app.Run();
         }
