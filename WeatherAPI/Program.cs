@@ -45,7 +45,17 @@ namespace WeatherAPI
             Console.WriteLine($"API Calls Made: {counter.GetCount()}");
                 return Results.Ok(city);
             });
+            app.MapGet("/api/healthcheck", () =>
+            {
+                counter.Increment();
+                if (Results.StatusCode == Results.Ok)
+                {
+                    return $"Api Status: {Results.Ok()}";
+                }
+                Console.WriteLine($"API Calls Made: {counter.GetCount()}");
+                return $"Api Status: {Results.NotFound()}";
 
+            });
             app.UseCors();
             app.Run();
         }
