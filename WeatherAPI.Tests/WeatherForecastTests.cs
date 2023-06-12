@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
+using Newtonsoft.Json;
 using System.Net;
 using Xunit;
 
@@ -25,7 +26,6 @@ namespace WeatherAPI.Tests
         }
         [Theory]
         [InlineData("/api/healthcheck", HttpStatusCode.OK)]
-        [InlineData("/api/healthcheck", HttpStatusCode.InternalServerError)]
         public async Task ApiHealthCheckShouldReturnOK(string endpoint, HttpStatusCode expected)
         {
             // Arrange
@@ -36,9 +36,25 @@ namespace WeatherAPI.Tests
             // Assert
             Assert.Equal(expected, actual.StatusCode);
         }
+
+        [Theory]
+        [InlineData("api/getcities", "stockholm", "gothenburg")]
+        public async Task ShouldReturnAllCities(string endpoint, string city1, string city2)
+        {
+            //Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+            List<string> expected = new List<string> { city1, city2 };
+
+            //Act
+            var response = await client.GetAsync(endpoint);
+            response.EnsureSuccessStatusCode(); // Ensure the response was successful
+
+            var content = await response.Content.ReadAsStringAsync();
+            var actual = JsonConvert.DeserializeObject<List<string>>(content);
+
+            //Assert
+            Assert.Equal(expected, actual);
+        }
     }
-
-
-
-
 }

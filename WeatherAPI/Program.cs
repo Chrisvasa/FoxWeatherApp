@@ -32,6 +32,7 @@ namespace WeatherAPI
             //app.UseHttpsRedirection();
             app.UseAuthorization();
 
+
             app.MapGet("/weather/{cityName}", (string cityName) =>
             {
                 var city = cities.city.Where(x => x.name.Equals(cityName.ToLower())).FirstOrDefault();
@@ -41,6 +42,7 @@ namespace WeatherAPI
                 }
                 return Results.Ok(city);
             });
+
             app.MapGet("/api/healthcheck", () =>
             {
                 if (Results.StatusCode == Results.Ok)
@@ -50,6 +52,17 @@ namespace WeatherAPI
                 return $"Api Status: {Results.NotFound()}";
 
             });
+
+            app.MapGet("/api/getcities", () =>
+            {
+                var cityList = cities.city.Select(x => x.name.ToLower()).ToArray();
+                if (cityList is null)
+                {
+                    return Results.NotFound();
+                }
+                return Results.Ok(cityList);
+            });
+
             app.UseCors();
             app.Run();
         }
