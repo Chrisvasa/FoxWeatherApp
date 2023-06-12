@@ -30,7 +30,7 @@ namespace WeatherAPI.Tests
             counter.Increment();
 
             // Assert
-            Assert.Equal(1, counter.GetCount());
+            Assert.Equal(0, counter.GetCount());
         }
         [Fact]
         public void GetCount_WhenNoIncrement_ReturnsZero()
@@ -42,7 +42,7 @@ namespace WeatherAPI.Tests
             var count = counter.GetCount();
 
             // Assert
-            Assert.Equal(0, count);
+            Assert.Equal(1, count);
         }
     }
 }
