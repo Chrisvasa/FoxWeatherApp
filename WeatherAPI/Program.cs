@@ -42,8 +42,7 @@ namespace WeatherAPI
                 {
                     return Results.NotFound();
                 }
-            int callCount = counter.GetCount();
-            Console.WriteLine($"API Calls Made: {callCount}");
+            Console.WriteLine($"API Calls Made: {counter.GetCount()}");
                 return Results.Ok(city);
             });
 
