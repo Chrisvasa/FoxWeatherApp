@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 using WeatherAPI.Models;
-using WeatherAPI.Tests;
+using ApiCounter;
 
 namespace WeatherAPI
 {

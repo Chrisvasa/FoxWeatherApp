@@ -1,4 +1,4 @@
-﻿namespace WeatherAPI.Tests
+﻿namespace ApiCounter
 {
         public class ApiCallCounter
         {
