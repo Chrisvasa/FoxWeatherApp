@@ -73,8 +73,8 @@ namespace WeatherAPI
                     throw new Exception("City not found!");
                 }
                 return $"Your favorite city is: {favoriteCity}";
-
             });
+
             app.UseCors();
             app.Run();
         }
