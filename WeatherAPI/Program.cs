@@ -1,12 +1,12 @@
+using ApiCounter;
 using Newtonsoft.Json;
 using WeatherAPI.Models;
-using ApiCounter;
 
 namespace WeatherAPI
 {
     public class Program
     {
-        static ApiCallCounter counter= new ApiCallCounter();//Counter to count api calls
+        static ApiCallCounter counter = new ApiCallCounter();//Counter to count api calls
         static Cities cities = new Cities(); // The JSON data gets loaded into these classes
 
         public static void Main(string[] args)
@@ -43,20 +43,21 @@ namespace WeatherAPI
                 {
                     return Results.NotFound();
                 }
-            Console.WriteLine($"API Calls Made: {counter.GetCount()}");
+                Console.WriteLine($"API Calls Made: {counter.GetCount()}");
                 return Results.Ok(city);
             });
 
-            app.MapGet("/api/healthcheck", () =>
+            app.MapGet("/api/healthcheck", async () =>
             {
                 counter.Increment();
-                if (Results.StatusCode == Results.Ok)
+                try
                 {
-                    return $"Api Status: {Results.Ok()}";
+                    return Results.Ok("Api Is Healthy");
                 }
-                Console.WriteLine($"API Calls Made: {counter.GetCount()}");
-                return $"Api Status: {Results.NotFound()}";
-
+                catch
+                {
+                    return Results.NotFound();
+                }
             });
 
 
@@ -69,7 +70,7 @@ namespace WeatherAPI
                 }
                 return Results.Ok(cityList);
             });
-          
+
             app.MapGet("/weather/favorite/{favoriteCity}", (string favoriteCity) =>
             {
                 foreach (var city in cities.city)

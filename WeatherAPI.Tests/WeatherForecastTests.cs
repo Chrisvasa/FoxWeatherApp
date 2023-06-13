@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using ApiCounter;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
-using ApiCounter;
 
 namespace WeatherAPI.Tests
 {
@@ -41,6 +41,8 @@ namespace WeatherAPI.Tests
         }
         [Theory]
         [InlineData("/api/healthcheck", HttpStatusCode.OK)]
+        //[InlineData("/api/healthcheck", HttpStatusCode.NotFound)]
+
         public async Task ApiHealthCheckShouldReturnOK(string endpoint, HttpStatusCode expected)
         {
             // Arrange
@@ -75,7 +77,7 @@ namespace WeatherAPI.Tests
             //Assert
             Assert.Equal(expected, actual);
         }
-      
+
         [Theory]
         [InlineData($"/weather/favorite/", "Stockholm", $"Your favorite city is: Stockholm")]
         public async Task AddFavoriteCity(string endpoint, string city, string expected)
