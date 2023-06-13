@@ -102,7 +102,7 @@ namespace WeatherAPI.Tests
             int count = counter.GetCount();
 
             // Assert
-            Assert.Equal(2, count);
+            Assert.Equal(1, count);
         }
     }
 }

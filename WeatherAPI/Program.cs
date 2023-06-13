@@ -95,10 +95,11 @@ namespace WeatherAPI
                 }
                 return $"Your favorite city is: {favoriteCity}";
             });
-           /* app.MapGet("/api/calls", (string calls) =>
+            app.MapGet("/api/calls", () =>
             {
+                counter.Increment();
 
-            });*/
+            });
 
             app.UseCors();
             app.Run();
