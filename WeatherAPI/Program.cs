@@ -110,6 +110,5 @@ namespace WeatherAPI
             // Converts the data from the JSON file into classes
             cities = JsonConvert.DeserializeObject<Cities>(jsonData);
         }
-
     }
 }
