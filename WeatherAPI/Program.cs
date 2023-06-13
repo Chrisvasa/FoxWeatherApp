@@ -97,8 +97,7 @@ namespace WeatherAPI
             });
             app.MapGet("/api/calls", () =>
             {
-                counter.Increment();
-                return $"Api calls made: {counter.GetCount()}";
+                return counter.GetCount();
 
             });
 
