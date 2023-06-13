@@ -2,6 +2,7 @@
 **/obj/*
 .vs/
 
+WeatherAPI/WeatherAPI.csproj.user
 WeatherAPI/.vs
 WeatherAPI.Tests/.vs
 app.config
