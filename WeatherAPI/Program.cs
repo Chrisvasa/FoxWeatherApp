@@ -63,6 +63,7 @@ namespace WeatherAPI
 
             app.MapGet("/api/getcities", () =>
             {
+                counter.Increment();
                 var cityList = cities.city.Select(x => x.name.ToLower()).ToArray();
                 if (cityList is null)
                 {
@@ -73,6 +74,7 @@ namespace WeatherAPI
 
             app.MapGet("/weather/favorite/{favoriteCity}", (string favoriteCity) =>
             {
+                counter.Increment();
                 foreach (var city in cities.city)
                 {
                     if (city.name == favoriteCity.ToLower())
@@ -93,6 +95,10 @@ namespace WeatherAPI
                 }
                 return $"Your favorite city is: {favoriteCity}";
             });
+           /* app.MapGet("/api/calls", (string calls) =>
+            {
+
+            });*/
 
             app.UseCors();
             app.Run();
