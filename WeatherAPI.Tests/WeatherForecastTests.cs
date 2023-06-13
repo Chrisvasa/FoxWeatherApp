@@ -90,19 +90,25 @@ namespace WeatherAPI.Tests
             // Assert
             Assert.Equal(expected, actual);
         }
-        [Fact]
-        public void IncrementAndGetCount_ShouldReturnCorrectCount()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(5)]
+        [InlineData(10)]
+        public void IncrementAndGetCount_ShouldReturnCorrectCount(int expectedCount)
         {
             // Arrange
             var counter = new ApiCallCounter();
 
             // Act
-            counter.Increment();
-            counter.Increment();
+            for (int i = 0; i < expectedCount; i++)
+            {
+                counter.Increment();
+            }
+
             int count = counter.GetCount();
 
             // Assert
-            Assert.Equal(1, count);
+            Assert.Equal(expectedCount, count);
         }
     }
 }
