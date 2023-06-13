@@ -35,7 +35,6 @@ namespace WeatherAPI
             //app.UseHttpsRedirection();
             app.UseAuthorization();
 
-
             app.MapGet("/weather/{cityName}", (string cityName) =>
             {
                 counter.Increment();
