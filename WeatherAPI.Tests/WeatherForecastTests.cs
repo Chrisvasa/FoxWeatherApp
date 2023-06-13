@@ -53,13 +53,17 @@ namespace WeatherAPI.Tests
         }
 
         [Theory]
-        [InlineData("api/getcities", "stockholm", "gothenburg")]
-        public async Task ShouldReturnAllCities(string endpoint, string city1, string city2)
+        [InlineData("api/getcities", new string[]{"stockholm", "gothenburg", "tokyo", "chicago"})]
+        public async Task ShouldReturnAllCities(string endpoint, string[] cities)
         {
             //Arrange
             await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
-            List<string> expected = new List<string> { city1, city2 };
+            List<string> expected = new List<string>();
+            foreach(string city in cities)
+            {
+                expected.Add(city);
+            }
 
             //Act
             var response = await client.GetAsync(endpoint);
