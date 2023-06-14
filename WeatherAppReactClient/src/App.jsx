@@ -31,6 +31,8 @@ const CityDropdownContainer = styled.div`
   justify-content: center;
   margin: auto;
   width: 100%;
+
+  z-index: 1;
 `;
 
 const cities = ["Stockholm", "Gothenburg", "Tokyo", "Chicago"];
@@ -41,8 +43,13 @@ function App() {
   const [cityInfo, setCityInfo] = useState([]);
   const [cityHistory, setCityHistory] = useState([]);
   const [error, setError] = useState(null);
-  const [fav, setFav] = useState("");
+  const [fav, setFav] = useState([]);
 
+
+  const toggleCity = (city) => {
+
+
+  }
 
 
   useEffect(() => {
@@ -93,12 +100,18 @@ function App() {
   const changeFav = () => {
 
     console.log(cityInfo)
-    setFav(cityInfo);
-    setSelectedCity("");
+  
 
-    console.log("Added to fav:")
-    console.log(fav)
-
+    const updatedFav = [...fav, cityInfo[0]]
+      
+      
+      setFav(updatedFav);
+      setSelectedCity("");
+      
+      console.log("Added to fav:")
+      console.log(fav)
+      
+    
 
   }
 
@@ -112,16 +125,21 @@ function App() {
 
         {
         
-          fav && (
-
-            <Weather
-            city={fav[0]?.name}
-            temp={fav[0]?.degrees}
-            weather={fav[0]?.weather}
-            handleFav={changeFav}
-            isFav
-            
+          fav.length > 0 && (
+            fav.map((city, index) =>(
+              // console.log(city)
+              <Weather
+              key={index}
+              city={city.name}
+              temp={city.degrees}
+              weather={city.weather}
+              handleFav={changeFav}
+              isFav
+              
             />
+
+            ))
+            
             )
         }
 
