@@ -31,21 +31,28 @@ const WeatherCard = styled.div`
   & .weather {
     font-size: 1.25rem;
   }
+
+  &.fav{
+    background: #007268;
+ 
+  }
 `;
+
+
 
 const leadingUpperCase = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 const Weather = (props) => {
-  const { city, temp, weather, handleFav } = props;
+  const { city, temp, weather, handleFav, isFav} = props;
+
   
 
   return (
-    <WeatherCard>
+    <WeatherCard className={ isFav ? 'fav' : 'notFav'}>
       <h2>{leadingUpperCase(city)}</h2>
       <p className="temp">{temp}°C</p>
       <p className="weather">{weather}</p>
       <button onClick={handleFav}>+</button>
-
     </WeatherCard>
   );
 };
