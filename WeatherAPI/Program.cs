@@ -77,7 +77,7 @@ namespace WeatherAPI
                 counter.Increment();
                 try
                 {
-                    return Results.Ok();
+                    return Results.Ok(new { message = "endpoint is ok!" });
                 }
                 catch
                 {
