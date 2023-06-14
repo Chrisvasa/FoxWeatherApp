@@ -61,7 +61,7 @@ namespace WeatherAPI
             });
 
 
-            app.MapGet("/api/getcities", () =>
+            app.MapGet("/api/cities/get", () =>
             {
                 counter.Increment();
                 var cityList = cities.city.Select(x => x.name).ToArray();
@@ -70,6 +70,19 @@ namespace WeatherAPI
                     return Results.NotFound();
                 }
                 return Results.Ok(new { cities = cityList });
+            });
+            //Statuscheck for all api endpoints
+            app.MapGet("{endpoint}", (string endpoint) =>
+            {
+                counter.Increment();
+                try
+                {
+                    return Results.Ok();
+                }
+                catch
+                {
+                    return Results.NotFound();
+                }
             });
 
             app.MapGet("/api/favorite/{favoriteCity}", (string favoriteCity) =>
