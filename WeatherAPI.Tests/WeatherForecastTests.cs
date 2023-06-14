@@ -67,7 +67,7 @@ namespace WeatherAPI.Tests
             var response = await client.GetAsync(endpoint);
             response.EnsureSuccessStatusCode(); // Ensure the response was successful
             var actual = await response.Content.ReadAsStringAsync();
-            var expected = JsonConvert.SerializeObject(expectedList);
+            var expected = JsonConvert.SerializeObject(new { cities = expectedList });
 
             //Assert
             Assert.Equal(expected, actual);
