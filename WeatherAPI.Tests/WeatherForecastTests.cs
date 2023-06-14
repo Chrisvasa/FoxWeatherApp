@@ -61,18 +61,14 @@ namespace WeatherAPI.Tests
             //Arrange
             await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
-            List<string> expected = new List<string>();
-            foreach (string city in cities)
-            {
-                expected.Add(city);
-            }
+            List<string> expectedList = cities.ToList();
+
             //Act
             var response = await client.GetAsync(endpoint);
             response.EnsureSuccessStatusCode(); // Ensure the response was successful
-            var content = await response.Content.ReadAsStringAsync();
-            var actual = JsonConvert.DeserializeObject<List<string>>(content);
-            actual.Sort();
-            expected.Sort();
+            var actual = await response.Content.ReadAsStringAsync();
+            var expected = JsonConvert.SerializeObject(expectedList);
+
             //Assert
             Assert.Equal(expected, actual);
         }
