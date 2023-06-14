@@ -9,12 +9,12 @@ namespace WeatherAPI.Tests
     public class WeatherForecastTests
     {
         [Theory]
-        [InlineData("/weather/stockholm", HttpStatusCode.OK)]
-        [InlineData("/weather/gothenburg", HttpStatusCode.OK)]
-        [InlineData("/weather/newyork", HttpStatusCode.NotFound)]
-        [InlineData("/weather/Stockholm", HttpStatusCode.OK)]
-        [InlineData("/weather/gOTHENBURG", HttpStatusCode.OK)]
-        [InlineData("/weather/StockHolM", HttpStatusCode.OK)]
+        [InlineData("/api/weather/stockholm", HttpStatusCode.OK)]
+        [InlineData("/api/weather/gothenburg", HttpStatusCode.OK)]
+        [InlineData("/api/weather/newyork", HttpStatusCode.NotFound)]
+        [InlineData("/api/weather/Stockholm", HttpStatusCode.OK)]
+        [InlineData("/api/weather/gOTHENBURG", HttpStatusCode.OK)]
+        [InlineData("/api/weather/StockHolM", HttpStatusCode.OK)]
         public async Task MapGetShouldReturnCityData(string endpoint, HttpStatusCode expected)
         {
             // Arrange
@@ -55,7 +55,7 @@ namespace WeatherAPI.Tests
         }
 
         [Theory]
-        [InlineData("api/getcities", new string[] { "stockholm", "gothenburg", "tokyo", "chicago" })]
+        [InlineData("/api/getcities", new string[] { "stockholm", "gothenburg", "tokyo", "chicago" })]
         public async Task ShouldReturnAllCities(string endpoint, string[] cities)
         {
             //Arrange
@@ -78,7 +78,7 @@ namespace WeatherAPI.Tests
         }
 
         [Theory]
-        [InlineData($"/weather/favorite/", "Stockholm", $"Your favorite city is: Stockholm")]
+        [InlineData($"/api/favorite/", "Stockholm", $"Your favorite city is: Stockholm")]
         public async Task AddFavoriteCity(string endpoint, string city, string expected)
         {
             // Arrange

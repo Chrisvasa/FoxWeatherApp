@@ -35,7 +35,7 @@ namespace WeatherAPI
             //app.UseHttpsRedirection();
             app.UseAuthorization();
 
-            app.MapGet("/weather/{cityName}", (string cityName) =>
+            app.MapGet("/api/weather/{cityName}", (string cityName) =>
             {
                 counter.Increment();
                 var city = cities.city.Where(x => x.name.Equals(cityName.ToLower())).FirstOrDefault();
@@ -72,7 +72,7 @@ namespace WeatherAPI
                 return Results.Ok(cityList);
             });
 
-            app.MapGet("/weather/favorite/{favoriteCity}", (string favoriteCity) =>
+            app.MapGet("/api/favorite/{favoriteCity}", (string favoriteCity) =>
             {
                 counter.Increment();
                 foreach (var city in cities.city)
