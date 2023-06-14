@@ -15,16 +15,19 @@ namespace WeatherAPI.Tests
         [InlineData("/api/weather/Stockholm", HttpStatusCode.OK)]
         [InlineData("/api/weather/gOTHENBURG", HttpStatusCode.OK)]
         [InlineData("/api/weather/StockHolM", HttpStatusCode.OK)]
-        public async Task MapGetShouldReturnCityData(string endpoint, HttpStatusCode expected)
+        public async Task ApiCall_ShouldReturnOK_IfCityExists(string endpoint, HttpStatusCode expected)
         {
             // Arrange
             await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
+
             // Act
             HttpResponseMessage actual = await client.GetAsync(endpoint);
+
             // Assert
             Assert.Equal(expected, actual.StatusCode);
         }
+
         [Fact]
         public void Increment_WhenCalled_CountIncreasesByOne()
         {
@@ -42,7 +45,6 @@ namespace WeatherAPI.Tests
         [Theory]
         [InlineData("/api/healthcheck", HttpStatusCode.OK)]
         //[InlineData("/api/healthcheck", HttpStatusCode.NotFound)]
-
         public async Task ApiHealthCheckShouldReturnOK(string endpoint, HttpStatusCode expected)
         {
             // Arrange
@@ -56,7 +58,7 @@ namespace WeatherAPI.Tests
 
         [Theory]
         [InlineData("/api/getcities", new string[] { "stockholm", "gothenburg", "tokyo", "chicago" })]
-        public async Task ShouldReturnAllCities(string endpoint, string[] cities)
+        public async Task GetCities_ShouldReturnAllCities_AsJSON(string endpoint, string[] cities)
         {
             //Arrange
             await using var application = new WebApplicationFactory<Program>();
