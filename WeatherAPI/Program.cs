@@ -64,12 +64,12 @@ namespace WeatherAPI
             app.MapGet("/api/getcities", () =>
             {
                 counter.Increment();
-                var cityList = cities.city.Select(x => x.name.ToLower()).ToArray();
+                var cityList = cities.city.Select(x => x.name).ToArray();
                 if (cityList is null)
                 {
                     return Results.NotFound();
                 }
-                return Results.Ok(cityList);
+                return Results.Ok(new { cities = cityList });
             });
 
             app.MapGet("/api/favorite/{favoriteCity}", (string favoriteCity) =>
@@ -87,7 +87,6 @@ namespace WeatherAPI
                     }
                 }
                 var fav = cities.city.Where(x => x.isFavorite == true).FirstOrDefault();
-                bool favc = false;
 
                 if (fav is null)
                 {
