@@ -34,7 +34,7 @@ const CityDropdownContainer = styled.div`
 `;
 
 const cities = ["Stockholm", "Gothenburg", "Tokyo", "Chicago"];
-const host = "http://localhost:20100";
+const host = "https://localhost:7107";
 
 function App() {
   const [selectedCity, setSelectedCity] = useState("");
@@ -47,7 +47,7 @@ function App() {
       Promise.all(
         cityHistory.map((city) =>
           axios
-            .get(`${host}/weather/${city.toLowerCase()}`)
+            .get(`${host}/api/weather/${city.toLowerCase()}`)
             .then((response) => response.data)
             .catch((error) => {
               if (error.response && error.response.status === 404) {
