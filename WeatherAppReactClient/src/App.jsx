@@ -92,7 +92,13 @@ function App() {
 
   const changeFav = () => {
 
-    console.log("Test");
+    console.log(cityInfo)
+    setFav(cityInfo);
+    setSelectedCity("");
+
+    console.log("Added to fav:")
+    console.log(fav)
+
 
   }
 
@@ -102,6 +108,24 @@ function App() {
         <CityDropdownContainer>
           <Dropdown options={cities} onSelect={handleCitySelect} />
         </CityDropdownContainer>
+        {/* Render favorites */}
+
+        {
+        
+          fav && (
+
+            <Weather
+            city={fav[0]?.name}
+            temp={fav[0]?.degrees}
+            weather={fav[0]?.weather}
+            handleFav={changeFav}
+            isFav
+            
+            />
+            )
+        }
+
+
         {cityInfo.length > 0 && selectedCity && (
           <Weather
             city={selectedCity}
