@@ -35,12 +35,17 @@ const WeatherCard = styled.div`
 
 const leadingUpperCase = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-const Weather = ({ city, temp, weather }) => {
+const Weather = (props) => {
+  const { city, temp, weather, handleFav } = props;
+  
+
   return (
     <WeatherCard>
       <h2>{leadingUpperCase(city)}</h2>
       <p className="temp">{temp}°C</p>
       <p className="weather">{weather}</p>
+      <button onClick={handleFav}>+</button>
+
     </WeatherCard>
   );
 };

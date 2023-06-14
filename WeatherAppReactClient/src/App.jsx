@@ -41,6 +41,9 @@ function App() {
   const [cityInfo, setCityInfo] = useState([]);
   const [cityHistory, setCityHistory] = useState([]);
   const [error, setError] = useState(null);
+  const [fav, setFav] = useState("");
+
+
 
   useEffect(() => {
     if (selectedCity) {
@@ -87,6 +90,12 @@ function App() {
     setError(null);
   };
 
+  const changeFav = () => {
+
+    console.log("Test");
+
+  }
+
   return (
     <MainConatiner>
       <WeatherConatiner>
@@ -98,6 +107,8 @@ function App() {
             city={selectedCity}
             temp={cityInfo[0]?.degrees}
             weather={cityInfo[0]?.weather}
+            handleFav={changeFav}
+
           />
         )}
       </WeatherConatiner>
@@ -112,6 +123,7 @@ function App() {
               weather={cityInfo[index + 1]?.weather}
             />
           ))}
+
         </WeatherConatiner>
       )}
       {error && <ErrorPopup message={error} onClose={handleCloseError} />}
