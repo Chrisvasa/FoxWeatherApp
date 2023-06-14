@@ -69,7 +69,7 @@ namespace WeatherAPI
                 {
                     return Results.NotFound();
                 }
-                return Results.Ok(cityList);
+                return Results.Ok(new { cities = cityList });
             });
 
             app.MapGet("/api/favorite/{favoriteCity}", (string favoriteCity) =>
