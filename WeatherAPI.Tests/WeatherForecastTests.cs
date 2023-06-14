@@ -42,6 +42,7 @@ namespace WeatherAPI.Tests
             var count = counter.GetCount();
             Assert.Equal(0, count);
         }
+
         [Theory]
         [InlineData("/api/healthcheck", HttpStatusCode.OK)]
         //[InlineData("/api/healthcheck", HttpStatusCode.NotFound)]
@@ -50,14 +51,16 @@ namespace WeatherAPI.Tests
             // Arrange
             await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
+
             // Act
             HttpResponseMessage actual = await client.GetAsync(endpoint);
+
             // Assert
             Assert.Equal(expected, actual.StatusCode);
         }
 
         [Theory]
-        [InlineData("/api/getcities", new string[] { "stockholm", "gothenburg", "tokyo", "chicago" })]
+        [InlineData("/api/cities/get", new string[] { "stockholm", "gothenburg", "tokyo", "chicago" })]
         public async Task GetCities_ShouldReturnAllCities_AsJSON(string endpoint, string[] cities)
         {
             //Arrange
@@ -76,17 +79,37 @@ namespace WeatherAPI.Tests
         }
 
         [Theory]
+        [InlineData("/api/favorite/stockholm", HttpStatusCode.OK)]
+        [InlineData("/api/cities/get", HttpStatusCode.OK)]
+        [InlineData("/api/weather/stockholm", HttpStatusCode.OK)]
+        public async Task API_ShouldReturnOK(string endpoint, HttpStatusCode expected)
+        {
+            // Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+            // Act
+
+            HttpResponseMessage actual = await client.GetAsync(endpoint);
+
+            // Assert
+            Assert.Equal(expected, actual.StatusCode);
+        }
+
+        [Theory]
         [InlineData($"/api/favorite/", "Stockholm", $"Your favorite city is: Stockholm")]
         public async Task AddFavoriteCity(string endpoint, string city, string expected)
         {
             // Arrange
             await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
+
             // Act
             string actual = await client.GetStringAsync(endpoint + city);
+
             // Assert
             Assert.Equal(expected, actual);
         }
+
         [Theory]
         [InlineData(0)]
         [InlineData(5)]
