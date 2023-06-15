@@ -37,7 +37,7 @@ namespace WeatherAPI
 
             app.MapGet("/api/weather/{cityName}", async (string cityName) =>
             {
-                await Task.CompletedTask;
+                await Task.Delay(10);
                 counter.Increment();
                 var city = cities.city.Where(x => x.name.Equals(cityName.ToLower())).FirstOrDefault();
                 if (city is null)
@@ -49,7 +49,7 @@ namespace WeatherAPI
 
             app.MapGet("/api/healthcheck", async () =>
             {
-                await Task.CompletedTask;
+                await Task.Delay(10);
                 counter.Increment();
                 try
                 {
@@ -63,7 +63,7 @@ namespace WeatherAPI
 
             app.MapGet("/api/cities/get", async () =>
             {
-                await Task.CompletedTask;
+                await Task.Delay(10);
                 counter.Increment();
                 var cityList = cities.city.Select(x => x.name).ToArray();
                 if (cityList is null)
@@ -76,7 +76,7 @@ namespace WeatherAPI
             //Statuscheck for all api endpoints
             app.MapGet("{endpoint}", async (string endpoint) =>
             {
-                await Task.CompletedTask;
+                await Task.Delay(10);
                 counter.Increment();
                 try
                 {
@@ -90,7 +90,7 @@ namespace WeatherAPI
 
             app.MapGet("/api/favorite/{favoriteCity}", async (string favoriteCity) =>
             {
-                await Task.CompletedTask;
+                await Task.Delay(10);
                 counter.Increment();
                 foreach (var city in cities.city)
                 {
@@ -114,7 +114,7 @@ namespace WeatherAPI
 
             app.MapGet("/api/calls", async () =>
             {
-                await Task.CompletedTask;
+                await Task.Delay(10);
                 return counter.GetCount();
             });
 
