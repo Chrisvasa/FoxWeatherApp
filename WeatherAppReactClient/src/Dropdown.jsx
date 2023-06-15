@@ -14,6 +14,12 @@ const DropdownButton = styled.button`
   border-radius: 0.25rem;
   cursor: pointer;
   width: 8rem;
+
+  &::first-letter{
+    
+    text-transform: capitalize;
+  }
+
 `;
 
 const DropdownList = styled.ul`
@@ -30,6 +36,8 @@ const DropdownList = styled.ul`
 const DropdownItem = styled.li`
   padding: 0.5rem 1rem;
   cursor: pointer;
+
+  text-transform: capitalize;
 
   &:hover {
     background: #f2f2f2;

@@ -31,23 +31,28 @@ const CityDropdownContainer = styled.div`
   justify-content: center;
   margin: auto;
   width: 100%;
+
+  z-index: 1;
 `;
 
-const cities = ["Stockholm", "Gothenburg", "Tokyo", "Chicago"];
-const host = "http://localhost:20100";
+const cities = ["stockholm", "gothenburg", "tokyo", "chicago"];
+const host = "https://localhost:7107";
 
 function App() {
+
   const [selectedCity, setSelectedCity] = useState("");
   const [cityInfo, setCityInfo] = useState([]);
   const [cityHistory, setCityHistory] = useState([]);
   const [error, setError] = useState(null);
+  const [fav, setFav] = useState([]);
+
 
   useEffect(() => {
     if (selectedCity) {
       Promise.all(
         cityHistory.map((city) =>
           axios
-            .get(`${host}/weather/${city.toLowerCase()}`)
+            .get(`${host}/api/weather/${city.toLowerCase()}`)
             .then((response) => response.data)
             .catch((error) => {
               if (error.response && error.response.status === 404) {
@@ -87,17 +92,60 @@ function App() {
     setError(null);
   };
 
+
+  //Add city as favorite
+  const addToFav = () => {
+
+    const updatedFav = [...fav, cityInfo[0]]
+      
+    setFav(updatedFav);
+    setSelectedCity("");
+
+      
+  }
+
+  //Remove city as favorite
+  const removeFav = (cityNameInput) => {
+
+    setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
+      
+  }
+
   return (
     <MainConatiner>
       <WeatherConatiner>
         <CityDropdownContainer>
           <Dropdown options={cities} onSelect={handleCitySelect} />
         </CityDropdownContainer>
+
+        {
+        /* Render favorites */
+          fav.length > 0 && (
+            fav.map((city, index) =>(
+              // console.log(city)
+              <Weather
+              key={index}
+              city={city.name}
+              temp={city.degrees}
+              weather={city.weather}
+              handleFav={removeFav}
+              isFav
+              
+            />
+
+            ))
+            
+            )
+        }
+
+
         {cityInfo.length > 0 && selectedCity && (
           <Weather
             city={selectedCity}
             temp={cityInfo[0]?.degrees}
             weather={cityInfo[0]?.weather}
+            handleFav={addToFav}
+
           />
         )}
       </WeatherConatiner>
@@ -112,6 +160,7 @@ function App() {
               weather={cityInfo[index + 1]?.weather}
             />
           ))}
+
         </WeatherConatiner>
       )}
       {error && <ErrorPopup message={error} onClose={handleCloseError} />}
