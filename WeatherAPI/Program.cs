@@ -35,20 +35,21 @@ namespace WeatherAPI
             //app.UseHttpsRedirection();
             app.UseAuthorization();
 
-            app.MapGet("/api/weather/{cityName}", (string cityName) =>
+            app.MapGet("/api/weather/{cityName}", async (string cityName) =>
             {
+                await Task.CompletedTask;
                 counter.Increment();
                 var city = cities.city.Where(x => x.name.Equals(cityName.ToLower())).FirstOrDefault();
                 if (city is null)
                 {
                     return Results.NotFound();
                 }
-                Console.WriteLine($"API Calls Made: {counter.GetCount()}");
                 return Results.Ok(city);
             });
 
             app.MapGet("/api/healthcheck", async () =>
             {
+                await Task.CompletedTask;
                 counter.Increment();
                 try
                 {
@@ -60,9 +61,9 @@ namespace WeatherAPI
                 }
             });
 
-
-            app.MapGet("/api/cities/get", () =>
+            app.MapGet("/api/cities/get", async () =>
             {
+                await Task.CompletedTask;
                 counter.Increment();
                 var cityList = cities.city.Select(x => x.name).ToArray();
                 if (cityList is null)
@@ -71,9 +72,11 @@ namespace WeatherAPI
                 }
                 return Results.Ok(new { cities = cityList });
             });
+
             //Statuscheck for all api endpoints
-            app.MapGet("{endpoint}", (string endpoint) =>
+            app.MapGet("{endpoint}", async (string endpoint) =>
             {
+                await Task.CompletedTask;
                 counter.Increment();
                 try
                 {
@@ -85,8 +88,9 @@ namespace WeatherAPI
                 }
             });
 
-            app.MapGet("/api/favorite/{favoriteCity}", (string favoriteCity) =>
+            app.MapGet("/api/favorite/{favoriteCity}", async (string favoriteCity) =>
             {
+                await Task.CompletedTask;
                 counter.Increment();
                 foreach (var city in cities.city)
                 {
@@ -107,10 +111,11 @@ namespace WeatherAPI
                 }
                 return $"Your favorite city is: {favoriteCity}";
             });
-            app.MapGet("/api/calls", () =>
-            {
-                return counter.GetCount();
 
+            app.MapGet("/api/calls", async () =>
+            {
+                await Task.CompletedTask;
+                return counter.GetCount();
             });
 
             app.UseCors();
