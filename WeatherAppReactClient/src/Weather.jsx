@@ -91,15 +91,18 @@ const leadingUpperCase = (str) => {
 const Weather = (props) => {
   const { city, temp, weather, handleFav, isFav} = props;
 
-  
+  const handleClick = () => {
+    isFav ? handleFav(city) : handleFav();
+  };
+
 
   return (
     <WeatherCard className={ isFav ? 'fav' : 'notFav'}>
       <h2>{leadingUpperCase(city)}</h2>
       <p className="temp">{temp}°C</p>
       <p className="weather">{weather}</p>
-      <a href="#" onClick={handleFav}>
-        {isFav ? null : <FavButton>+</FavButton>}
+      <a href="#" onClick={handleClick}>
+        {isFav ? <FavButton className="remove-btn">-</FavButton> : <FavButton>+</FavButton>}
       </a>
     </WeatherCard>
   );

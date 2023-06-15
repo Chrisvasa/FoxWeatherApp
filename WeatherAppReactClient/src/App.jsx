@@ -35,21 +35,16 @@ const CityDropdownContainer = styled.div`
   z-index: 1;
 `;
 
-const cities = ["Stockholm", "Gothenburg", "Tokyo", "Chicago"];
+const cities = ["stockholm", "gothenburg", "tokyo", "chicago"];
 const host = "https://localhost:7107";
 
 function App() {
+
   const [selectedCity, setSelectedCity] = useState("");
   const [cityInfo, setCityInfo] = useState([]);
   const [cityHistory, setCityHistory] = useState([]);
   const [error, setError] = useState(null);
   const [fav, setFav] = useState([]);
-
-
-  const toggleCity = (city) => {
-
-
-  }
 
 
   useEffect(() => {
@@ -97,22 +92,24 @@ function App() {
     setError(null);
   };
 
-  const changeFav = () => {
 
-    console.log(cityInfo)
-  
+  //Add city as favorite
+  const addToFav = () => {
 
     const updatedFav = [...fav, cityInfo[0]]
       
-      
-      setFav(updatedFav);
-      setSelectedCity("");
-      
-      console.log("Added to fav:")
-      console.log(fav)
-      
-    
+    setFav(updatedFav);
+    setSelectedCity("");
 
+    setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
+      
+  }
+
+  //Remove city as favorite
+  const removeFav = (cityNameInput) => {
+
+    setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
+      
   }
 
   return (
@@ -121,10 +118,9 @@ function App() {
         <CityDropdownContainer>
           <Dropdown options={cities} onSelect={handleCitySelect} />
         </CityDropdownContainer>
-        {/* Render favorites */}
 
         {
-        
+        /* Render favorites */
           fav.length > 0 && (
             fav.map((city, index) =>(
               // console.log(city)
@@ -133,7 +129,7 @@ function App() {
               city={city.name}
               temp={city.degrees}
               weather={city.weather}
-              handleFav={changeFav}
+              handleFav={removeFav}
               isFav
               
             />
@@ -149,7 +145,7 @@ function App() {
             city={selectedCity}
             temp={cityInfo[0]?.degrees}
             weather={cityInfo[0]?.weather}
-            handleFav={changeFav}
+            handleFav={addToFav}
 
           />
         )}
