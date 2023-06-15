@@ -101,7 +101,6 @@ function App() {
     setFav(updatedFav);
     setSelectedCity("");
 
-    setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
       
   }
 
