@@ -132,11 +132,17 @@ function App() {
           <Dropdown options={cityList} onSelect={handleCitySelect} />
         </CityDropdownContainer>
 
+        
+        {
+          fav.length == 0 && cityInfo.length == 0 && (
+            <h1>Select city above</h1>
+          )
+        }
+
         {
         /* Render favorites */
           fav.length > 0 && (
             fav.map((city, index) =>(
-              // console.log(city)
               <Weather
               key={index}
               city={city.name}
