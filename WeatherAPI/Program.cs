@@ -1,5 +1,4 @@
 using ApiCounter;
-using Microsoft.AspNetCore.Http.Extensions;
 using Newtonsoft.Json;
 using System.Net.NetworkInformation;
 using WeatherAPI.Models;
@@ -14,6 +13,7 @@ namespace WeatherAPI
         public static void Main(string[] args)
         {
             LoadJson();
+            Task<IPStatus> task = PingServerAsync("dev.kjeld.io");
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -55,7 +55,7 @@ namespace WeatherAPI
                 counter.Increment();
                 try
                 {
-                    return Results.Ok(new { message = "Api is healthy"});
+                    return Results.Ok(new { message = "Api is healthy" });
                 }
                 catch
                 {
@@ -130,7 +130,7 @@ namespace WeatherAPI
             cities = JsonConvert.DeserializeObject<Cities>(jsonData);
         }
 
-        public static async Task<IPStatus> PingAsync(string endpoint)
+        public static async Task<IPStatus> PingServerAsync(string endpoint)
         {
             var hostUrl = endpoint;
 
