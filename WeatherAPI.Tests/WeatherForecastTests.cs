@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Net;
+using System.Net.NetworkInformation;
 using Xunit;
 
 namespace WeatherAPI.Tests
@@ -57,6 +58,21 @@ namespace WeatherAPI.Tests
 
             // Assert
             Assert.Equal(expected, actual.StatusCode);
+        }
+
+        [Theory]
+        [InlineData("dev.kjeld.io", IPStatus.Success)]
+        public async Task HealtCheckShouldReturnOka(string endpoint, IPStatus expected)
+        {
+            //Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+
+            //Act
+            IPStatus actual = await Program.PingAsync(endpoint);
+
+            //Assert
+            Assert.Equal(expected, actual);
         }
 
         [Theory]

@@ -1,5 +1,6 @@
 using ApiCounter;
 using Newtonsoft.Json;
+using System.Net.NetworkInformation;
 using WeatherAPI.Models;
 
 namespace WeatherAPI
@@ -127,5 +128,16 @@ namespace WeatherAPI
             // Converts the data from the JSON file into classes
             cities = JsonConvert.DeserializeObject<Cities>(jsonData);
         }
+
+        public static async Task<IPStatus> PingAsync(string endpoint)
+        {
+            var hostUrl = endpoint;
+
+            Ping ping = new Ping();
+
+            PingReply result = await ping.SendPingAsync(hostUrl);
+            return result.Status;
+        }
+
     }
 }
