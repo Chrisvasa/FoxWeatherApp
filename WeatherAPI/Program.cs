@@ -95,24 +95,13 @@ namespace WeatherAPI
             {
                 await Task.Delay(10);
                 counter.Increment();
-                foreach (var city in cities.city)
-                {
-                    if (city.name == favoriteCity.ToLower())
-                    {
-                        city.isFavorite = true;
-                    }
-                    else
-                    {
-                        city.isFavorite = false;
-                    }
-                }
-                var fav = cities.city.Where(x => x.isFavorite == true).FirstOrDefault();
+                var fav = cities.city.Where(x => x.name == favoriteCity.ToLower()).FirstOrDefault();
 
                 if (fav is null)
                 {
                     throw new Exception("City not found!");
                 }
-                return $"Your favorite city is: {favoriteCity}";
+                return $"You favorited city: {favoriteCity}";
             });
 
             app.MapGet("/api/calls", async () =>

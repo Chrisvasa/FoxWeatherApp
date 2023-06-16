@@ -131,7 +131,7 @@ namespace WeatherAPI.Tests
         }
 
         [Theory]
-        [InlineData($"/api/favorite/", "Stockholm", $"Your favorite city is: Stockholm")]
+        [InlineData($"/api/favorite/", "Stockholm", $"You favorited city: Stockholm")]
         public async Task AddFavoriteCity(string endpoint, string city, string expected)
         {
             // Arrange

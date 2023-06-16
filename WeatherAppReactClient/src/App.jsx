@@ -69,6 +69,7 @@ function App() {
             .catch((error) => {
               if (error.response && error.response.status === 404) {
                 setError("City not found");
+                console.log(error.message)
               } else {
                 setError("An error occurred. The server may be down.");
                 console.log("An error occurred:", error);
@@ -113,7 +114,6 @@ function App() {
     setCityList(prevCityList =>
       prevCityList.filter(city => city !== cityInfo[0].name)
     );
-
   }
 
   //Remove city as favorite
@@ -125,7 +125,6 @@ function App() {
 
     setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
     setCityList(prevCityList => [...prevCityList, cityNameInput]);
-
   }
 
   return (
