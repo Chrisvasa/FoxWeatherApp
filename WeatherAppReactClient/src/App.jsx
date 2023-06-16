@@ -35,7 +35,6 @@ const CityDropdownContainer = styled.div`
   z-index: 1;
 `;
 
-const cities = ["stockholm", "gothenburg", "tokyo", "chicago"];
 const host = "https://localhost:7107";
 
 function App() {
@@ -45,6 +44,17 @@ function App() {
   const [cityHistory, setCityHistory] = useState([]);
   const [error, setError] = useState(null);
   const [fav, setFav] = useState([]);
+
+  const [cityList, setCityList] = useState([])
+
+  useEffect(() => {
+
+    axios.get(`${host}/api/getcities`)
+    .then((res) => res.data.cities)
+    .then((cities) => setCityList(cities))
+
+  }, [])
+
 
 
   useEffect(() => {
@@ -101,6 +111,9 @@ function App() {
     setFav(updatedFav);
     setSelectedCity("");
 
+    setCityList(prevCityList =>
+      prevCityList.filter(city => city !== cityInfo[0].name)
+    );
       
   }
 
@@ -108,6 +121,7 @@ function App() {
   const removeFav = (cityNameInput) => {
 
     setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
+    setCityList(prevCityList => [...prevCityList, cityNameInput]);
       
   }
 
@@ -115,14 +129,20 @@ function App() {
     <MainConatiner>
       <WeatherConatiner>
         <CityDropdownContainer>
-          <Dropdown options={cities} onSelect={handleCitySelect} />
+          <Dropdown options={cityList} onSelect={handleCitySelect} />
         </CityDropdownContainer>
+
+        
+        {
+          fav.length == 0 && cityInfo.length == 0 && (
+            <h1>Select city above</h1>
+          )
+        }
 
         {
         /* Render favorites */
           fav.length > 0 && (
             fav.map((city, index) =>(
-              // console.log(city)
               <Weather
               key={index}
               city={city.name}
