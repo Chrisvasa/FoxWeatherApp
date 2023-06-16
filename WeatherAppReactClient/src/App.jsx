@@ -119,6 +119,11 @@ function App() {
 
   //Remove city as favorite
   const removeFav = (cityNameInput) => {
+<<<<<<< HEAD
+=======
+    const favCount = fav.length;
+
+>>>>>>> e9bb0cca53344c55fde2e3f1d54759b95218054d
     // To display placeholder text if last favorite is removed
     if(selectedCity.length == 0 && favCount == 1){
       setCityInfo([]);
