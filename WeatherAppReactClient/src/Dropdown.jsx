@@ -53,7 +53,7 @@ const Dropdown = ({ options, onSelect }) => {
   };
 
   const handleSelect = (option) => {
-    setSelectedOption(option);
+    // setSelectedOption(option);
     onSelect(option);
     setIsOpen(false);
   };
@@ -61,7 +61,7 @@ const Dropdown = ({ options, onSelect }) => {
   return (
     <DropdownContainer>
       <DropdownButton onClick={handleToggle}>
-        {selectedOption || "Select an option"}
+        {"Menu"}
       </DropdownButton>
       {isOpen && (
         <DropdownList>
