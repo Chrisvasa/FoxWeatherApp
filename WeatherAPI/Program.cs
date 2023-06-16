@@ -91,7 +91,7 @@ namespace WeatherAPI
                 }
             });
 
-            app.MapGet("/api/favorite/{favoriteCity}", async (string favoriteCity) =>
+            app.MapGet("/api/favorite/add/{favoriteCity}", async (string favoriteCity) =>
             {
                 await Task.Delay(10);
                 counter.Increment();
@@ -101,9 +101,16 @@ namespace WeatherAPI
                 }
                 catch
                 {
-                    return Results.NotFound(new {error = "City not found!" });
+                    return Results.NotFound(new { message = "City not found!" });
                 }
-                return Results.Ok(new {message = $"You favorited city: {favoriteCity}" });
+                return Results.Ok(new { message = $"You favorited city: {favoriteCity}" });
+            });
+
+            app.MapGet("/api/favorite/remove/{favoriteCity}", async (string favoriteCity) =>
+            {
+                //await Task.Delay(10);
+                //counter.Increment();
+                throw new NotImplementedException();
             });
 
             app.MapGet("/api/calls", async () =>

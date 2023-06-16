@@ -1,8 +1,10 @@
 ﻿using ApiCounter;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.NetworkInformation;
+using WeatherAPI.Models;
 using Xunit;
 
 namespace WeatherAPI.Tests
@@ -114,7 +116,7 @@ namespace WeatherAPI.Tests
         }
 
         [Theory]
-        [InlineData("/api/favorite/stockholm", HttpStatusCode.OK)]
+        [InlineData("/api/favorite/add/stockholm", HttpStatusCode.OK)]
         [InlineData("/api/cities/get", HttpStatusCode.OK)]
         [InlineData("/api/weather/stockholm", HttpStatusCode.OK)]
         public async Task API_ShouldReturnOK(string endpoint, HttpStatusCode expected)
@@ -131,8 +133,9 @@ namespace WeatherAPI.Tests
         }
 
         [Theory]
-        [InlineData($"/api/favorite/", "Stockholm", $"You favorited city: Stockholm")]
-        [InlineData($"/api/favorite/", "Gothenburg", $"You favorited city: Gothenburg")]
+        [InlineData($"/api/favorite/add/", "Stockholm", $"You favorited city: Stockholm")]
+        [InlineData($"/api/favorite/add/", "Gothenburg", $"You favorited city: Gothenburg")]
+        [InlineData($"/api/favorite/add/", "Göteborg", $"City not found!")]
         public async Task AddFavoriteCity_ShouldReturn_FavoritedCityName(string endpoint, string city, string expectedInput)
         {
             // Arrange
@@ -148,19 +151,37 @@ namespace WeatherAPI.Tests
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public async Task AddFavoriteCity_ShouldReturnOK_IfCityExists()
+        [Theory]
+        [InlineData($"/api/favorite/add/Stockholm", HttpStatusCode.OK)]
+        [InlineData($"/api/favorite/add/Gothenburg", HttpStatusCode.OK)]
+        [InlineData($"/api/favorite/add/Uppsala", HttpStatusCode.NotFound)]
+        public async Task AddFavoriteCity_ShouldReturnOK_IfCityExists(string endpoint, HttpStatusCode expected)
         {
             // Arrange
             await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
-            var expected = HttpStatusCode.NotFound;
 
             // Act
-            HttpResponseMessage actual = await client.GetAsync("/api/favorite/Uppsala");
+            HttpResponseMessage actual = await client.GetAsync(endpoint);
 
             // Assert
             Assert.Equal(expected, actual.StatusCode);
+        }
+        [Fact]
+        public async Task RemoveFavoriteCity_ShouldReturn_RemovedCityName()
+        {
+            // Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+            string expected = "You unfavorited: Stockholm";
+
+            // Act
+            HttpResponseMessage response = await client.GetAsync("/api/favorite/remove/Stockholm");
+            var actual = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            Assert.Equal(expected, actual);
+
         }
 
         [Theory]
