@@ -119,6 +119,10 @@ function App() {
 
   //Remove city as favorite
   const removeFav = (cityNameInput) => {
+    // To display placeholder text if last favorite is removed
+    if(selectedCity.length == 0 && favCount == 1){
+      setCityInfo([]);
+    }
 
     setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
     setCityList(prevCityList => [...prevCityList, cityNameInput]);
@@ -131,8 +135,6 @@ function App() {
         <CityDropdownContainer>
           <Dropdown options={cityList} onSelect={handleCitySelect} />
         </CityDropdownContainer>
-
-        
         {
           fav.length == 0 && cityInfo.length == 0 && (
             <h1>Select city above</h1>
@@ -152,9 +154,7 @@ function App() {
               isFav
               
             />
-
             ))
-            
             )
         }
 
@@ -180,7 +180,6 @@ function App() {
               weather={cityInfo[index + 1]?.weather}
             />
           ))}
-
         </WeatherConatiner>
       )}
       {error && <ErrorPopup message={error} onClose={handleCloseError} />}
