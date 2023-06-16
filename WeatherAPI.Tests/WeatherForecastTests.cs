@@ -1,6 +1,5 @@
 ﻿using ApiCounter;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -82,14 +81,14 @@ namespace WeatherAPI.Tests
 
         [Theory]
         [InlineData("dev.kjeld.io", IPStatus.Success)]
-        public async Task HealtCheckShouldReturnOka(string endpoint, IPStatus expected)
+        public async Task HealtCheckShouldReturnOk(string endpoint, IPStatus expected)
         {
             //Arrange
             await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
 
             //Act
-            IPStatus actual = await Program.PingAsync(endpoint);
+            IPStatus actual = await Program.PingServerAsync(endpoint);
 
             //Assert
             Assert.Equal(expected, actual);
