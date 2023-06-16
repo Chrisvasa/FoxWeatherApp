@@ -44,7 +44,7 @@ namespace WeatherAPI
                 var city = cities.city.Where(x => x.name.Equals(cityName.ToLower())).FirstOrDefault();
                 if (city is null)
                 {
-                    return Results.NotFound(new {error = $"Sorry, could not find anything about {cityName}"});
+                    return Results.NotFound(new { message = $"Sorry, could not find anything about {cityName}"});
                 }
                 return Results.Ok(city);
             });
@@ -71,7 +71,7 @@ namespace WeatherAPI
                 var cityList = cities.city.Select(x => x.name).ToArray();
                 if (cityList is null)
                 {
-                    return Results.NotFound(new { error = "We are unable to fetch any cities at the moment. Please try again later." });
+                    return Results.NotFound(new { message = "We are unable to fetch any cities at the moment. Please try again later." });
                 }
                 return Results.Ok(new { cities = cityList });
             });
