@@ -104,7 +104,6 @@ function App() {
 
   //Add city as favorite
   const addToFav = () => {
-
     const updatedFav = [...fav, cityInfo[0]]
 
     setFav(updatedFav);
@@ -113,11 +112,10 @@ function App() {
     setCityList(prevCityList =>
       prevCityList.filter(city => city !== cityInfo[0].name)
     );
-
   }
 
   //Remove city as favorite
-  const removeFav = (cityNameInput) => {
+  const removeFav = async (cityNameInput) => {
     // To display placeholder text if last favorite is removed
     if (selectedCity.length == 0 && fav.length == 1) {
       setCityInfo([]);
@@ -125,7 +123,6 @@ function App() {
 
     setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
     setCityList(prevCityList => [...prevCityList, cityNameInput]);
-
   }
 
   return (

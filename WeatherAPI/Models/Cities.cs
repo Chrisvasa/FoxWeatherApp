@@ -2,6 +2,6 @@
 {
     public class Cities
     {
-        public City[]? city { get; set; }
+        public City[] city { get; set; }
     }
 }

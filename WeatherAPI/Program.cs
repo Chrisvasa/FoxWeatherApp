@@ -44,7 +44,7 @@ namespace WeatherAPI
                 var city = cities.city.Where(x => x.name.Equals(cityName.ToLower())).FirstOrDefault();
                 if (city is null)
                 {
-                    return Results.NotFound(new {error = $"Sorry, could not find anything about {cityName}"});
+                    return Results.NotFound(new { message = $"Sorry, could not find anything about {cityName}"});
                 }
                 return Results.Ok(city);
             });
@@ -71,7 +71,7 @@ namespace WeatherAPI
                 var cityList = cities.city.Select(x => x.name).ToArray();
                 if (cityList is null)
                 {
-                    return Results.NotFound(new { error = "We are unable to fetch any cities at the moment. Please try again later." });
+                    return Results.NotFound(new { message = "We are unable to fetch any cities at the moment. Please try again later." });
                 }
                 return Results.Ok(new { cities = cityList });
             });
@@ -91,28 +91,34 @@ namespace WeatherAPI
                 }
             });
 
-            app.MapGet("/api/favorite/{favoriteCity}", async (string favoriteCity) =>
+            app.MapGet("/api/favorite/add/{favoriteCity}", async (string favoriteCity) =>
             {
                 await Task.Delay(10);
                 counter.Increment();
-                foreach (var city in cities.city)
-                {
-                    if (city.name == favoriteCity.ToLower())
-                    {
-                        city.isFavorite = true;
-                    }
-                    else
-                    {
-                        city.isFavorite = false;
-                    }
-                }
-                var fav = cities.city.Where(x => x.isFavorite == true).FirstOrDefault();
 
-                if (fav is null)
+                var city = cities.city.Where(x => x.name == favoriteCity.ToLower()).FirstOrDefault();
+                if (city is null)
                 {
-                    throw new Exception("City not found!");
+                    return Results.NotFound(new { message = "City not found!" });
                 }
-                return $"Your favorite city is: {favoriteCity}";
+
+                cities.city.Where(x => x.name == favoriteCity.ToLower()).FirstOrDefault().isFavorite = true;
+                return Results.Ok(new { message = $"You favorited city: {favoriteCity}" });
+            });
+
+            app.MapGet("/api/favorite/remove/{favoriteCity}", async (string favoriteCity) =>
+            {
+                await Task.Delay(10);
+                counter.Increment();
+
+                var city = cities.city.Where(x => x.name == favoriteCity.ToLower()).FirstOrDefault();
+                if (city is null)
+                {
+                    return Results.NotFound(new { message = "City not found!" });
+                }
+
+                cities.city.Where(x => x.name == favoriteCity.ToLower()).FirstOrDefault().isFavorite = false;
+                return Results.Ok(new { message = $"You unfavorited: {favoriteCity}" });
             });
 
             app.MapGet("/api/calls", async () =>
