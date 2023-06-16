@@ -53,7 +53,7 @@ namespace WeatherAPI
                 counter.Increment();
                 try
                 {
-                    return Results.Ok(new { messege = "Api is healthy"});
+                    return Results.Ok(new { message = "Api is healthy"});
                 }
                 catch
                 {
