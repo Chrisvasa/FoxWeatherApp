@@ -35,7 +35,7 @@ const CityDropdownContainer = styled.div`
   z-index: 1;
 `;
 
-const host = "http://localhost:5107";
+const host = "http://dev.kjeld.io:20100";
 
 function App() {
 
@@ -51,9 +51,7 @@ function App() {
 
     axios.get(`${host}/api/cities/get`)
       .then((res) => res.data.cities)
-      .then((cities) => {
-        setCityList(cities)
-      })
+      .then((cities) => setCityList(cities))
       .catch((error) => {
         setError(`${error.message} - Not able to fetch data from API. Please try again later.`)
       })
@@ -71,7 +69,6 @@ function App() {
             .catch((error) => {
               if (error.response && error.response.status === 404) {
                 setError("City not found");
-                console.log(error.message)
               } else {
                 setError("An error occurred. The server may be down.");
                 console.log("An error occurred:", error);
@@ -106,11 +103,10 @@ function App() {
 
 
   //Add city as favorite
-  const addToFav = async () => {
+  const addToFav = () => {
     const updatedFav = [...fav, cityInfo[0]]
 
     setFav(updatedFav);
-    await axios.get(`${host}/api/favorite/add/${selectedCity}`)
     setSelectedCity("");
 
     setCityList(prevCityList =>
@@ -125,7 +121,6 @@ function App() {
       setCityInfo([]);
     }
 
-    await axios.get(`${host}/api/favorite/remove/${cityNameInput}`)
     setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
     setCityList(prevCityList => [...prevCityList, cityNameInput]);
   }
