@@ -55,7 +55,6 @@ function App() {
       .catch((error) => {
         setError(`${error.message} - Not able to fetch data from API. Please try again later.`)
       })
-
   }, [])
 
 
@@ -75,9 +74,7 @@ function App() {
                 console.log("An error occurred:", error);
               }
               return null;
-            })
-        )
-      )
+            })))
         .then((cityDataArray) => {
           setCityInfo(cityDataArray.filter(Boolean));
         })
@@ -140,8 +137,7 @@ function App() {
         {
           fav.length == 0 && cityInfo.length == 0 && (
             <h1>Select city above</h1>
-          )
-        }
+          )}
 
         {
           /* Render favorites */
@@ -154,12 +150,8 @@ function App() {
                 weather={city.weather}
                 handleFav={removeFav}
                 isFav
-
               />
-            ))
-          )
-        }
-
+            )))}
 
         {cityInfo.length > 0 && selectedCity && (
           <Weather
@@ -167,7 +159,6 @@ function App() {
             temp={cityInfo[0]?.degrees}
             weather={cityInfo[0]?.weather}
             handleFav={addToFav}
-
           />
         )}
       </WeatherConatiner>
