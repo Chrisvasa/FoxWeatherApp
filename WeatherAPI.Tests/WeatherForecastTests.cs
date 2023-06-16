@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Newtonsoft.Json;
 using System.Net;
+using System.Net.NetworkInformation;
 using Xunit;
 
 namespace WeatherAPI.Tests
@@ -77,6 +78,21 @@ namespace WeatherAPI.Tests
             var result = JsonConvert.DeserializeAnonymousType(content, new { message = "" });
 
             Assert.Equal("Api is healthy", result.message);
+        }
+
+        [Theory]
+        [InlineData("dev.kjeld.io", IPStatus.Success)]
+        public async Task HealtCheckShouldReturnOka(string endpoint, IPStatus expected)
+        {
+            //Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+
+            //Act
+            IPStatus actual = await Program.PingAsync(endpoint);
+
+            //Assert
+            Assert.Equal(expected, actual);
         }
 
         [Theory]
