@@ -35,7 +35,7 @@ const CityDropdownContainer = styled.div`
   z-index: 1;
 `;
 
-const host = "https://localhost:7107";
+const host = "http://dev.kjeld.io:20100";
 
 function App() {
 
@@ -45,11 +45,11 @@ function App() {
   const [error, setError] = useState(null);
   const [fav, setFav] = useState([]);
 
-  const [cityList, setCityList] = useState([])
+  const [cityList, setCityList] = useState([]);
 
   useEffect(() => {
 
-    axios.get(`${host}/api/getcities`)
+    axios.get(`${host}/api/cities/get`)
     .then((res) => res.data.cities)
     .then((cities) => setCityList(cities))
 
