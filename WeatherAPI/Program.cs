@@ -1,4 +1,5 @@
 using ApiCounter;
+using Microsoft.AspNetCore.Http.Extensions;
 using Newtonsoft.Json;
 using WeatherAPI.Models;
 
@@ -52,10 +53,11 @@ namespace WeatherAPI
                 counter.Increment();
                 try
                 {
-                    return Results.Ok("Api Is Healthy");
+                    return Results.Ok(new { message = "Api is healthy"});
                 }
                 catch
                 {
+                    Console.WriteLine($"Api is down.");
                     return Results.NotFound();
                 }
             });
@@ -112,7 +114,6 @@ namespace WeatherAPI
                 return counter.GetCount();
 
             });
-
             app.UseCors();
             app.Run();
         }

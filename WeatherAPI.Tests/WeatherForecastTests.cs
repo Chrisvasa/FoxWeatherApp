@@ -1,5 +1,6 @@
 ﻿using ApiCounter;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
@@ -55,8 +56,27 @@ namespace WeatherAPI.Tests
             // Act
             HttpResponseMessage actual = await client.GetAsync(endpoint);
 
+
             // Assert
             Assert.Equal(expected, actual.StatusCode);
+        }
+
+        [Fact]
+        public async Task HealthCheck_ReturnsCorrectMessage()
+        {
+            // Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+
+            // Act
+            var response = await client.GetAsync("/api/healthcheck");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeAnonymousType(content, new { message = "" });
+
+            Assert.Equal("Api is healthy", result.message);
         }
 
         [Theory]
