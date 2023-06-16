@@ -95,7 +95,6 @@ function App() {
       updatedHistory.unshift(city);
       return updatedHistory;
     });
-    console.log("Selected city:", city);
   };
 
   const handleCloseError = () => {
@@ -120,7 +119,7 @@ function App() {
   //Remove city as favorite
   const removeFav = (cityNameInput) => {
     // To display placeholder text if last favorite is removed
-    if(selectedCity.length == 0 && favCount == 1){
+    if(selectedCity.length == 0 && fav.length == 1){
       setCityInfo([]);
     }
 
