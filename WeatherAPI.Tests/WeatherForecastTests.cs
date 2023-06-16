@@ -132,7 +132,7 @@ namespace WeatherAPI.Tests
 
         [Theory]
         [InlineData($"/api/favorite/", "Stockholm", $"You favorited city: Stockholm")]
-        public async Task AddFavoriteCity(string endpoint, string city, string expected)
+        public async Task AddFavoriteCity_ShouldReturn_FavoritedCityName(string endpoint, string city, string expected)
         {
             // Arrange
             await using var application = new WebApplicationFactory<Program>();
@@ -143,6 +143,20 @@ namespace WeatherAPI.Tests
 
             // Assert
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task AddFavoriteCity_ShouldReturnOK_IfCityExists()
+        {
+            // Arrange
+            await using var application = new WebApplicationFactory<Program>();
+            using var client = application.CreateClient();
+            var expected = HttpStatusCode.NotFound;
+
+            // Act
+            var actual = await client.GetAsync("/api/favorite/Uppsala");
+            // Assert
+            Assert.Equal(expected, actual.StatusCode);
         }
 
         [Theory]
