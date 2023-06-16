@@ -1,5 +1,6 @@
 ﻿using ApiCounter;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
