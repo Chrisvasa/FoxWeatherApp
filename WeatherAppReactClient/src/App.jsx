@@ -50,8 +50,11 @@ function App() {
   useEffect(() => {
 
     axios.get(`${host}/api/cities/get`)
-    .then((res) => res.data.cities)
-    .then((cities) => setCityList(cities))
+      .then((res) => res.data.cities)
+      .then((cities) => setCityList(cities))
+      .catch((error) => {
+        setError(`${error.message} - Not able to fetch data from API. Please try again later.`)
+      })
 
   }, [])
 
@@ -106,26 +109,26 @@ function App() {
   const addToFav = () => {
 
     const updatedFav = [...fav, cityInfo[0]]
-      
+
     setFav(updatedFav);
     setSelectedCity("");
 
     setCityList(prevCityList =>
       prevCityList.filter(city => city !== cityInfo[0].name)
     );
-      
+
   }
 
   //Remove city as favorite
   const removeFav = (cityNameInput) => {
     // To display placeholder text if last favorite is removed
-    if(selectedCity.length == 0 && fav.length == 1){
+    if (selectedCity.length == 0 && fav.length == 1) {
       setCityInfo([]);
     }
 
     setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
     setCityList(prevCityList => [...prevCityList, cityNameInput]);
-      
+
   }
 
   return (
@@ -141,20 +144,20 @@ function App() {
         }
 
         {
-        /* Render favorites */
+          /* Render favorites */
           fav.length > 0 && (
-            fav.map((city, index) =>(
+            fav.map((city, index) => (
               <Weather
-              key={index}
-              city={city.name}
-              temp={city.degrees}
-              weather={city.weather}
-              handleFav={removeFav}
-              isFav
-              
-            />
+                key={index}
+                city={city.name}
+                temp={city.degrees}
+                weather={city.weather}
+                handleFav={removeFav}
+                isFav
+
+              />
             ))
-            )
+          )
         }
 
 
