@@ -10,9 +10,10 @@ namespace WeatherAPI
         static ApiCallCounter counter = new ApiCallCounter();//Counter to count api calls
         static Cities cities = new Cities(); // The JSON data gets loaded into these classes
 
-        public static void Main(string[] args)
+        public static async void Main(string[] args)
         {
             LoadJson();
+            await PingServerAsync("dev.kjeld.io");
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
