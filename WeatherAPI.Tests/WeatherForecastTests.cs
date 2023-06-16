@@ -1,10 +1,8 @@
 ﻿using ApiCounter;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.NetworkInformation;
-using WeatherAPI.Models;
 using Xunit;
 
 namespace WeatherAPI.Tests
@@ -167,16 +165,19 @@ namespace WeatherAPI.Tests
             // Assert
             Assert.Equal(expected, actual.StatusCode);
         }
-        [Fact]
-        public async Task RemoveFavoriteCity_ShouldReturn_RemovedCityName()
+
+        [Theory]
+        [InlineData($"/api/favorite/remove/Stockholm", $"You unfavorited: Stockholm")]
+        [InlineData($"/api/favorite/remove/Uppsala", $"City not found!")]
+        public async Task RemoveFavoriteCity_ShouldReturn_RemovedCityName(string endpoint, string expectedInput)
         {
             // Arrange
             await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
-            string expected = "You unfavorited: Stockholm";
+            var expected = JsonConvert.SerializeObject(new { message = $"{expectedInput}" });
 
             // Act
-            HttpResponseMessage response = await client.GetAsync("/api/favorite/remove/Stockholm");
+            HttpResponseMessage response = await client.GetAsync(endpoint);
             var actual = await response.Content.ReadAsStringAsync();
 
             // Assert

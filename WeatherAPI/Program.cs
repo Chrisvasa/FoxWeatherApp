@@ -95,22 +95,30 @@ namespace WeatherAPI
             {
                 await Task.Delay(10);
                 counter.Increment();
-                try
-                {
-                    cities.city.Where(x => x.name == favoriteCity.ToLower()).FirstOrDefault().isFavorite = true;
-                }
-                catch
+
+                var city = cities.city.Where(x => x.name == favoriteCity.ToLower()).FirstOrDefault();
+                if (city is null)
                 {
                     return Results.NotFound(new { message = "City not found!" });
                 }
+
+                cities.city.Where(x => x.name == favoriteCity.ToLower()).FirstOrDefault().isFavorite = true;
                 return Results.Ok(new { message = $"You favorited city: {favoriteCity}" });
             });
 
             app.MapGet("/api/favorite/remove/{favoriteCity}", async (string favoriteCity) =>
             {
-                //await Task.Delay(10);
-                //counter.Increment();
-                throw new NotImplementedException();
+                await Task.Delay(10);
+                counter.Increment();
+
+                var city = cities.city.Where(x => x.name == favoriteCity.ToLower()).FirstOrDefault();
+                if (city is null)
+                {
+                    return Results.NotFound(new { message = "City not found!" });
+                }
+
+                cities.city.Where(x => x.name == favoriteCity.ToLower()).FirstOrDefault().isFavorite = false;
+                return Results.Ok(new { message = $"You unfavorited: {favoriteCity}" });
             });
 
             app.MapGet("/api/calls", async () =>
