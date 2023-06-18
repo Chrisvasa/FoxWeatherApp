@@ -95,7 +95,7 @@ namespace WeatherAPI.Tests
         }
 
         [Theory]
-        [InlineData("/api/cities/get", new string[] { "stockholm", "gothenburg", "tokyo", "chicago" })]
+        [InlineData("/api/cities/get", new string[] {"{ name: \"stockholm\", isFavorite: false }", "{ name: \"gothenburg\", isFavorite: false }", "{ name: \"tokyo\", isFavorite: false }", "{ name: \"chicago\", isFavorite: false }" })]
         public async Task GetCities_ShouldReturnAllCities_AsJSON(string endpoint, string[] cities)
         {
             //Arrange
