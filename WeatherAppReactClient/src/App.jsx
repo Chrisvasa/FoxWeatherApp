@@ -48,14 +48,32 @@ function App() {
   const [cityList, setCityList] = useState([]);
 
   useEffect(() => {
-
     axios.get(`${host}/api/cities/get`)
       .then((res) => res.data.cities)
-      .then((cities) => setCityList(cities))
-      .catch((error) => {
-        setError(`${error.message} - Not able to fetch data from API. Please try again later.`)
+      .then(async (cities) => {
+        console.log(cities);
+  
+        const cityList = cities.filter(city => !city.isFavorite).map(city => city.name);
+        const favoriteList = cities.filter(city => city.isFavorite);
+  
+        const fetchFavoriteWeatherData = favoriteList.map(async (city) => {
+          const response = await axios.get(`${host}/api/weather/${city.name.toLowerCase()}`);
+          return response.data;
+        });
+  
+        try {
+          const favoriteWeatherData = await Promise.all(fetchFavoriteWeatherData);
+          setFav(favoriteWeatherData);
+        } catch (error) {
+          console.error('Error fetching favorite weather data:', error);
+        }
+  
+        setCityList(cityList);
       })
-  }, [])
+      .catch((error) => {
+        setError(`${error.message} - Not able to fetch data from API. Please try again later.`);
+      });
+  }, []);
 
 
 
@@ -97,6 +115,7 @@ function App() {
     });
   };
 
+
   const handleCloseError = () => {
     setError(null);
   };
@@ -104,18 +123,23 @@ function App() {
 
   //Add city as favorite
   const addToFav = () => {
-    const updatedFav = [...fav, cityInfo[0]]
+    const currentCity = cityInfo[0]
+
+    const updatedFav = [...fav, currentCity]
 
     setFav(updatedFav);
     setSelectedCity("");
+    axios.get(`${host}/api/favorite/add/${currentCity.name}`)
+
 
     setCityList(prevCityList =>
-      prevCityList.filter(city => city !== cityInfo[0].name)
+      prevCityList.filter(city => city !== currentCity.name)
     );
   }
 
   //Remove city as favorite
   const removeFav = async (cityNameInput) => {
+    console.log(cityNameInput)
     // To display placeholder text if last favorite is removed
     if (selectedCity.length == 0 && fav.length == 1) {
       setCityInfo([]);
@@ -123,6 +147,8 @@ function App() {
 
     setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
     setCityList(prevCityList => [...prevCityList, cityNameInput]);
+
+    axios.get(`${host}/api/favorite/remove/${cityNameInput}`)
   }
 
   return (
