@@ -95,13 +95,13 @@ namespace WeatherAPI.Tests
         }
 
         [Theory]
-        [InlineData("/api/cities/get", new string[] {"{ name: \"stockholm\", isFavorite: false }", "{ name: \"gothenburg\", isFavorite: false }", "{ name: \"tokyo\", isFavorite: false }", "{ name: \"chicago\", isFavorite: false }" })]
+        [InlineData("/api/cities/get", new string[] { "{ \"name\": \"stockholm\", \"isFavorite\": false }", "{ \"name\": \"gothenburg\", \"isFavorite\": false }", "{ \"name\": \"tokyo\", \"isFavorite\": false }", "{ \"name\": \"chicago\", \"isFavorite\": false }" })]
         public async Task GetCities_ShouldReturnAllCities_AsJSON(string endpoint, string[] cities)
         {
             //Arrange
             await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
-            List<string> expectedList = cities.ToList();
+            List<object> expectedList = cities.Select(JsonConvert.DeserializeObject<object>).ToList();
 
             //Act
             var response = await client.GetAsync(endpoint);
