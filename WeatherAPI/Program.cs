@@ -68,7 +68,7 @@ namespace WeatherAPI
             {
                 await Task.Delay(10);
                 counter.Increment();
-                var cityList = cities.city.Select(x => x.name).ToArray();
+                var cityList = cities.city.Select(x => new { x.name, x.isFavorite }).ToArray();
                 if (cityList is null)
                 {
                     return Results.NotFound(new { message = "We are unable to fetch any cities at the moment. Please try again later." });
