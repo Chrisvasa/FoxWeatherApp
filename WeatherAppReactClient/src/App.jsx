@@ -35,8 +35,7 @@ const CityDropdownContainer = styled.div`
   z-index: 1;
 `;
 
-// const host = "http://dev.kjeld.io:20100";
-const host = "https://localhost:7107";
+const host = "http://dev.kjeld.io:20100";
 
 function App() {
 
