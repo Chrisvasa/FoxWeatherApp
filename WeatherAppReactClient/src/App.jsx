@@ -140,6 +140,7 @@ function App() {
 
   //Remove city as favorite
   const removeFav = async (cityNameInput) => {
+    console.log(cityNameInput)
     // To display placeholder text if last favorite is removed
     if (selectedCity.length == 0 && fav.length == 1) {
       setCityInfo([]);
@@ -147,6 +148,8 @@ function App() {
 
     setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
     setCityList(prevCityList => [...prevCityList, cityNameInput]);
+
+    axios.get(`${host}/api/favorite/remove/${cityNameInput}`)
   }
 
   return (
