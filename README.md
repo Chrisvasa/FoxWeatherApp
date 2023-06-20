@@ -12,7 +12,7 @@ We built an API with different endpoints to either get weather data about differ
 
 ![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
 ![.NET](https://img.shields.io/badge/ASP.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
-![.NET](https://img.shields.io/badge/xUnit-000000?style=for-the-badge)
+![xUnit](https://img.shields.io/badge/xUnit-000000?style=for-the-badge)
 - Framework: .NET 6.0.
 - ASP.NET Minimal API.
 - xUnit
