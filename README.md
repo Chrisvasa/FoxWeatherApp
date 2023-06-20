@@ -42,6 +42,13 @@ Then either press `o` or click the link that shows up.
 The demo below shows how you can interact and retrieve weather data, favorite cities and remove favorites.
 ![PageDemo](demopage.gif)
 
+## How we worked as a team
+As noted at the start of the readme, we worked by following some simple scrum methodics 
+such as a scrumboard, sprints, daily standups, code reviews and pair programming.
+![PullRequest](image-2.png)
+These type of reviews made it much easier to make any needed changes on new features being added to the program.
+And by using these methods we greatly increased our efficiency and and people had an easier time
+to know what they were supposed to work on.
 ## Team
 
 - [Leo Stålenhag](https://www.github.com/L-stal)
