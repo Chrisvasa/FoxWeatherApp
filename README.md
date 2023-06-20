@@ -50,3 +50,6 @@ The demo below shows how you can interact and retrieve weather data, favorite ci
 - [Daniel Berkowicz](https://www.github.com/Berkowicz)
 - [Ilyas Kaya](https://www.github.com/AkiVonAkira)
 - [Christopher Vasankari](https://www.github.com/Chrisvasa)
+
+## External links
+![Scrumboard](https://trello.com/b/mc7PcAVI/ci-cd-team-fox)
