@@ -51,6 +51,13 @@ Then either press `o` or click the link that shows up.
 The demo below shows how you can interact and retrieve weather data, favorite cities and remove favorites.
 ![PageDemo](README_Images/demopage.gif)
 
+## CI/CD Pipeline
+We used a simplified version of a CI/CD pipeline and this was setup with a git post-receive script using bash. And after checking if all the tests passed
+then the API was deployed on the linux server.
+
+We also added this branch to our repo so that we were able to push our changes once we merged our branches with main.
+`git remote add deploy ssh://Servername:Port/home/fox/bare-FoxWeatherApp.git`
+
 ## How we worked as a team
 As noted at the start of the readme, we worked by following some simple scrum methodics 
 such as a scrumboard, sprints, daily standups, code reviews and pair programming.
