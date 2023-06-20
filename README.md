@@ -28,9 +28,8 @@ Other than that you also need to make sure you have installed npm.
 `npm run dev`
 Then either press `o` or click the link that shows up.
 #### Usage
-[Images here in a bit]
-
-
+The demo below shows how you can interact and retrieve weather data, favorite cities and remove favorites.
+![PageDemo](demopage.gif)
 
 ## Team
 
