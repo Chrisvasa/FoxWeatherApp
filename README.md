@@ -1,7 +1,16 @@
 # Weather API
+
 In this project we worked as an agile team using a scrumboard with daily standups to better plan and cooperate. 
 The main priority of this project was to work in a way that fits test-driven development standards and to use a CI/CD pipeline to test and deploy our work in a more fluid way.
 We also heavily used branches for all the different features we developed, and had code-reviews with at least two of the team members per pull request.
+
+## Team
+
+<a href = "https://github.com/Chrisvasa/FoxWeatherApp/graphs/contributors">
+  <img src = "https://contrib.rocks/image?repo=Chrisvasa/FoxWeatherApp"/>
+</a>
+
+[Christopher Vasankari](https://www.github.com/Chrisvasa)    |     [Jonas Wettergrund](https://www.github.com/Wettergrund)    |     [Leo Stålenhag](https://www.github.com/L-stal)    |     [Daniel Berkowicz](https://www.github.com/Berkowicz)    |          [Ilyas Kaya](https://www.github.com/AkiVonAkira)     |     [Robert Johnson](https://www.github.com/Rohnson95)
 
 <h3>The application</h3>
 
@@ -49,14 +58,6 @@ such as a scrumboard, sprints, daily standups, code reviews and pair programming
 These type of reviews made it much easier to make any needed changes on new features being added to the program.
 And by using these methods we greatly increased our efficiency and and people had an easier time
 to know what they were supposed to work on.
-## Team
-
-- [Leo Stålenhag](https://www.github.com/L-stal)
-- [Robert Johnson](https://www.github.com/Rohnson95)
-- [Jonas Wettergrund](https://www.github.com/Wettergrund)
-- [Daniel Berkowicz](https://www.github.com/Berkowicz)
-- [Ilyas Kaya](https://www.github.com/AkiVonAkira)
-- [Christopher Vasankari](https://www.github.com/Chrisvasa)
 
 ## External links
 ![Scrumboard](https://trello.com/b/mc7PcAVI/ci-cd-team-fox)
