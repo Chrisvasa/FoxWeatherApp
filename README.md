@@ -10,15 +10,21 @@ We built an API with different endpoints to either get weather data about differ
 <h2>Tech stack</h2>
 <h4>💻 Backend</h4>
 
-- Framework: Dotnet 6.
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
+![.NET](https://img.shields.io/badge/ASP.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
+![.NET](https://img.shields.io/badge/xUnit-000000?style=for-the-badge)
+- Framework: .NET 6.0.
 - ASP.NET Minimal API.
-- C#
 - xUnit
 
 <h4>🎨 Frontend</h4>
 
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![JS](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white)
+![SC](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
+![ESLint](https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white)
 - Built using Vite React.
-- JS, JSX, CSS (Styled components)
+- Styled with StyledComponents for CSS in JS approach.
 
 ## Getting started
 ### Prerequisities
