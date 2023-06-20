@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Weather from "./Weather";
 import Dropdown from "./Dropdown";
-import ErrorPopup from "./ErrorPopup";
+import ErrorPopup from "./components/ErrorPopup";
+import {
+  handleError,
+  clearErrors,
+  getErrorsFromLocalStorage
+} from "./utils/ErrorUtils";
 import axios from "axios";
 
 const MainConatiner = styled.div`
@@ -38,44 +43,51 @@ const CityDropdownContainer = styled.div`
 const host = "http://dev.kjeld.io:20100";
 
 function App() {
-
   const [selectedCity, setSelectedCity] = useState("");
   const [cityInfo, setCityInfo] = useState([]);
   const [cityHistory, setCityHistory] = useState([]);
-  const [error, setError] = useState(null);
   const [fav, setFav] = useState([]);
+  const [errors, setErrors] = useState([]);
 
   const [cityList, setCityList] = useState([]);
 
   useEffect(() => {
-    axios.get(`${host}/api/cities/get`)
+    axios
+      .get(`${host}/api/cities/get`)
       .then((res) => res.data.cities)
       .then(async (cities) => {
         console.log(cities);
-  
-        const cityList = cities.filter(city => !city.isFavorite).map(city => city.name);
-        const favoriteList = cities.filter(city => city.isFavorite);
-  
+
+        const cityList = cities
+          .filter((city) => !city.isFavorite)
+          .map((city) => city.name);
+        const favoriteList = cities.filter((city) => city.isFavorite);
+
         const fetchFavoriteWeatherData = favoriteList.map(async (city) => {
-          const response = await axios.get(`${host}/api/weather/${city.name.toLowerCase()}`);
+          const response = await axios.get(
+            `${host}/api/weather/${city.name.toLowerCase()}`
+          );
           return response.data;
         });
-  
+
         try {
-          const favoriteWeatherData = await Promise.all(fetchFavoriteWeatherData);
+          const favoriteWeatherData = await Promise.all(
+            fetchFavoriteWeatherData
+          );
           setFav(favoriteWeatherData);
         } catch (error) {
-          console.error('Error fetching favorite weather data:', error);
+          handleError("Error fetching favorite weather data:", error);
         }
-  
+
         setCityList(cityList);
       })
       .catch((error) => {
-        setError(`${error.message} - Not able to fetch data from API. Please try again later.`);
+        handleError(
+          `Not able to fetch data from API. Please try again later.`,
+          error
+        );
       });
   }, []);
-
-
 
   useEffect(() => {
     if (selectedCity) {
@@ -86,19 +98,25 @@ function App() {
             .then((response) => response.data)
             .catch((error) => {
               if (error.response && error.response.status === 404) {
-                setError("City not found");
+                handleError("City not found", error);
               } else {
-                setError("An error occurred. The server may be down.");
-                console.log("An error occurred:", error);
+                handleError(
+                  "An error occurred. The server may be down.",
+                  error
+                );
               }
               return null;
-            })))
+            })
+        )
+      )
         .then((cityDataArray) => {
           setCityInfo(cityDataArray.filter(Boolean));
         })
         .catch((error) => {
-          setError("An error occurred while fetching weather information.");
-          console.log("An error occurred:", error);
+          handleError(
+            "An error occurred while fetching weather information.",
+            error
+          );
         });
     }
   }, [cityHistory]);
@@ -115,41 +133,43 @@ function App() {
     });
   };
 
+  useEffect(() => {
+    setErrors(getErrorsFromLocalStorage());
+  }, []);
 
   const handleCloseError = () => {
-    setError(null);
+    setErrors([]);
+    clearErrors();
   };
-
 
   //Add city as favorite
   const addToFav = () => {
-    const currentCity = cityInfo[0]
+    const currentCity = cityInfo[0];
 
-    const updatedFav = [...fav, currentCity]
+    const updatedFav = [...fav, currentCity];
 
     setFav(updatedFav);
     setSelectedCity("");
-    axios.get(`${host}/api/favorite/add/${currentCity.name}`)
+    axios.get(`${host}/api/favorite/add/${currentCity.name}`);
 
-
-    setCityList(prevCityList =>
-      prevCityList.filter(city => city !== currentCity.name)
+    setCityList((prevCityList) =>
+      prevCityList.filter((city) => city !== currentCity.name)
     );
-  }
+  };
 
   //Remove city as favorite
   const removeFav = async (cityNameInput) => {
-    console.log(cityNameInput)
+    console.log(cityNameInput);
     // To display placeholder text if last favorite is removed
     if (selectedCity.length == 0 && fav.length == 1) {
       setCityInfo([]);
     }
 
-    setFav(prevFav => prevFav.filter(city => city.name !== cityNameInput));
-    setCityList(prevCityList => [...prevCityList, cityNameInput]);
+    setFav((prevFav) => prevFav.filter((city) => city.name !== cityNameInput));
+    setCityList((prevCityList) => [...prevCityList, cityNameInput]);
 
-    axios.get(`${host}/api/favorite/remove/${cityNameInput}`)
-  }
+    axios.get(`${host}/api/favorite/remove/${cityNameInput}`);
+  };
 
   return (
     <MainConatiner>
@@ -157,14 +177,11 @@ function App() {
         <CityDropdownContainer>
           <Dropdown options={cityList} onSelect={handleCitySelect} />
         </CityDropdownContainer>
-        {
-          fav.length == 0 && cityInfo.length == 0 && (
-            <h1>Select city above</h1>
-          )}
+        {fav.length == 0 && cityInfo.length == 0 && <h1>Select city above</h1>}
 
         {
           /* Render favorites */
-          fav.length > 0 && (
+          fav.length > 0 &&
             fav.map((city, index) => (
               <Weather
                 key={index}
@@ -174,7 +191,8 @@ function App() {
                 handleFav={removeFav}
                 isFav
               />
-            )))}
+            ))
+        }
 
         {cityInfo.length > 0 && selectedCity && (
           <Weather
@@ -198,7 +216,13 @@ function App() {
           ))}
         </WeatherConatiner>
       )}
-      {error && <ErrorPopup message={error} onClose={handleCloseError} />}
+      {errors.length > 0 && (
+        <ErrorPopup
+          messages={errors.map((error) => error.message)}
+          onClose={handleCloseError}
+          length={errors.length}
+        />
+      )}
     </MainConatiner>
   );
 }
