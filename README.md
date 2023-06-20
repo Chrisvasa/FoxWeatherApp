@@ -26,7 +26,7 @@ You need to have .NET installed on your computer, which can be found [here](http
 Other than that you also need to make sure you have installed npm.
 `npm install npm@latest -g`
 ### Installation
-1. `https://github.com/Chrisvasa/FoxWeatherApp.git`
+1. `git clone https://github.com/Chrisvasa/FoxWeatherApp.git`
 2. Either launch the application through an IDE or build the project and then launch it using an EXE.
 3. To further interact with the API you can open the `WeatherAppReactClient` folder in VSCode and type the following commands which should be enough to get you started.
 `npm i`
